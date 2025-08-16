@@ -37,8 +37,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={`antialiased overflow-x-hidden`}>
+    <html className="scroll-smooth" lang="en" suppressHydrationWarning>
+      <body className={`antialiased overflow-x-hidden !scroll-smooth`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="light"

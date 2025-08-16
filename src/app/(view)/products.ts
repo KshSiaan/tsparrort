@@ -1,9 +1,9 @@
 export const items = [
+    { name: "Modern Shakshuka", image: "/image/products/Butter Mushroom Crepe.jpg", price: 15.0 },
   { name: "Ferroro Nutella Crepe", image: "/image/products/Ferroro Nutella Crepe.jpg", price: 16.0 },
   { name: "Dubia Chocolate Crepe", image: "/image/products/dubia-crepe.jpg", price: 18.0 },
   { name: "Crème Brûlée Crepe (cone-style)", image: "/image/products/Creme Brulee Crepe.jpg", price: 16.0 },
   { name: "Nutella Strawberry Banana Crepe", image: "/image/products/Nutella Strawberry Banana Crepe.jpg", price: 16.0 },
-  { name: "Butter Mushroom Crepe", image: "/image/products/Butter Mushroom Crepe.jpg", price: 15.0 },
   { name: "Strawberry Crepe", image: "/image/products/Stawberry Crepe.jpg", price: 16.0 }, // from screenshot
   { name: "Salmon Onigiri", image: "/image/products/Salmon Onigiri.jpg", price: 17.0 },
   { name: "Double Chocolate Cookies", image: "/image/products/Double Choclate Cookies.jpg", price: 6.5 },
