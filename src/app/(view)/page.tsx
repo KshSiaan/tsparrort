@@ -245,7 +245,7 @@ export default function Home() {
                     ${x.price}
                   </CardDescription>
                 </CardHeader>
-                <div className="bg-background/80 opacity-0 hover:opacity-100! h-full w-full absolute transition-all flex justify-center items-center">
+                <div className="bg-primary/60 backdrop-brightness-20 opacity-0 hover:opacity-100! h-full w-full absolute transition-all flex justify-center items-center">
                   <Button asChild>
                     <Link
                       href={
