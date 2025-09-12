@@ -1,0 +1,91 @@
+import React from "react";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import Image from "next/image";
+
+import { HandPlatter } from "lucide-react";
+import { cn } from "@/lib/utils";
+import Link from "next/link";
+import { items } from "@/lib/products";
+
+export default function ProductSection() {
+  return (
+    <section
+      id="featured"
+      className="mt-12 px-6 md:px-12"
+      aria-labelledby="featured-title"
+    >
+      <div className="flex justify-center items-center mb-12">
+        <Button
+          className={cn(
+            "flex items-center gap-2 rounded-full px-4 py-2 text-white font-bold shadow-lg",
+            "bg-orange-400!",
+            "hover:scale-105 transition-transform duration-200"
+          )}
+          asChild
+        >
+          <a
+            href="https://www.instagram.com/thescreamingparrots?igsh=MTMzNHRkNGVnYjRxMg=="
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Follow Us
+          </a>
+        </Button>
+      </div>
+      <h2
+        id="featured-title"
+        className="text-2xl md:text-3xl font-bold text-center"
+      >
+        Our Best Sellers
+      </h2>
+      <p className="font-semibold text-center mt-4 md:mt-6 text-base md:text-lg">
+        Discover the menu items our customers love most.
+      </p>
+
+      <div className="mt-12 mx-auto max-w-6xl grid grid-cols-2 lg:grid-cols-3 gap-6">
+        {items.map((x) => (
+          <Card
+            key={x.id}
+            className="relative shadow-md hover:shadow-xl transition-shadow rounded-2xl overflow-hidden pt-0"
+          >
+            <div className="w-full aspect-square flex items-center justify-center bg-white">
+              <Image
+                src={x.image}
+                alt={`${x.name} - popular dessert or drink`}
+                width={400}
+                height={400}
+                className="object-cover aspect-square max-w-[100%]"
+              />
+            </div>
+            <CardHeader>
+              <CardTitle className="font-bold text-sm md:text-xl uppercase text-center">
+                {x.name}
+              </CardTitle>
+              <CardDescription className="text-base font-bold text-center text-gray-600">
+                ${x.price}
+              </CardDescription>
+            </CardHeader>
+            <div className="bg-primary/10 backdrop-brightness-20 opacity-0 hover:opacity-100! h-full w-full absolute transition-all flex justify-center items-center">
+              <Button asChild>
+                <Link
+                  // href={
+                  //   "https://order.online/store/the-screaming-parrots-cafe:-desserts-+-tea-+-bites-redmond-34952133/?hideModal=true&pickup=true&redirected=true"
+                  // }
+                  href={`/${x.id}`}
+                >
+                  <HandPlatter /> Order now
+                </Link>
+              </Button>
+            </div>
+          </Card>
+        ))}
+      </div>
+    </section>
+  );
+}

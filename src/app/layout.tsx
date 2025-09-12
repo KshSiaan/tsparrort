@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Analytics } from "@vercel/analytics/next";
+import { Toaster } from "@/components/ui/sonner";
+import { CartProvider } from "@/context/cart-context";
 export const metadata: Metadata = {
   title: "The Screaming Parrots Cafe – Desserts, Tea & Bites in Redmond, WA",
   description:
@@ -45,8 +47,9 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {children}
-          <Analytics />
+          <CartProvider>{children}</CartProvider>
+          <Toaster />
+          {/* <Analytics /> */}
         </ThemeProvider>
       </body>
     </html>
