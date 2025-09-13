@@ -87,15 +87,6 @@ export default function Home() {
           className="py-16 flex justify-center items-center gap-12 px-6 md:px-12"
           aria-labelledby="about-title"
         >
-          {/* <div className="flex justify-center items-center">
-            <Image
-              src={"/image/logo.webp"}
-              height={500}
-              width={500}
-              alt="Cafe branding logo"
-              className="w-40 h-40 md:w-64 md:h-64 object-contain"
-            />
-          </div> */}
           <div className="w-full md:w-3/4">
             <h1
               id="about-title"

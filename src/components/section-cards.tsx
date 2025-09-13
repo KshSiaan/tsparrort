@@ -5,7 +5,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { IconPackages, IconUsersGroup } from "@tabler/icons-react";
-import { CheckIcon, DollarSignIcon, TimerResetIcon } from "lucide-react";
+import { DollarSignIcon, TimerResetIcon } from "lucide-react";
 
 export function SectionCards() {
   return (

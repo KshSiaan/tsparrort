@@ -1,7 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+
 import { items } from "@/lib/products";
 import {
   MinusIcon,
@@ -15,7 +15,7 @@ import { notFound, useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useCart } from "@/context/cart-context";
-import { ProductReviews } from "@/components/product-reviews";
+
 import { RelatedProducts } from "@/components/related-products";
 import { CartSidebar } from "@/components/cart-sidebar";
 import { toast } from "sonner";

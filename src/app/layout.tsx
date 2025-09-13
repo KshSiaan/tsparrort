@@ -49,7 +49,7 @@ export default function RootLayout({
         >
           <CartProvider>{children}</CartProvider>
           <Toaster />
-          {/* <Analytics /> */}
+          <Analytics />
         </ThemeProvider>
       </body>
     </html>

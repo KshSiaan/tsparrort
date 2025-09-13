@@ -1,4 +1,5 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -12,8 +13,27 @@ import { HandPlatter } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { items } from "@/lib/products";
-
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+const itemsSlot = [
+  "Popular Items",
+  "Savory Crepes, Breakfast & Brunch",
+  "Sweet Crepes",
+  "Bakery",
+  "Drinks",
+  "Ceremonial Grade Matcha",
+  "Coffee Beans",
+  "Tea",
+  "Sugarcane",
+  "Real Fruit Puree",
+];
 export default function ProductSection() {
+  const [selectedCat, setSelectedCat] = useState<string>("");
   return (
     <section
       id="featured"
@@ -47,7 +67,38 @@ export default function ProductSection() {
       <p className="font-semibold text-center mt-4 md:mt-6 text-base md:text-lg">
         Discover the menu items our customers love most.
       </p>
-
+      <div className=" md:flex py-6 hidden justify-center items-center flex-wrap gap-6 w-2/3  mx-auto">
+        {itemsSlot.map((x) => (
+          <Button
+            key={x}
+            variant={selectedCat === x ? "default" : "outline"}
+            onClick={() => {
+              setSelectedCat(x);
+            }}
+          >
+            {x}
+          </Button>
+        ))}
+      </div>
+      <div className="block md:hidden w-2/3 mx-auto mt-6">
+        <Select
+          value={selectedCat}
+          onValueChange={(e) => {
+            setSelectedCat(e);
+          }}
+        >
+          <SelectTrigger className="w-full">
+            <SelectValue placeholder="All" />
+          </SelectTrigger>
+          <SelectContent>
+            {itemsSlot.map((x) => (
+              <SelectItem value={x} key={x}>
+                {x}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
       <div className="mt-12 mx-auto max-w-6xl grid grid-cols-2 lg:grid-cols-3 gap-6">
         {items.map((x) => (
           <Card

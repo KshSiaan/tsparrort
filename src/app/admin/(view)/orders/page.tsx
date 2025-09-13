@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
-import { BanIcon, EllipsisIcon, EyeIcon, SearchIcon } from "lucide-react";
+import { EllipsisIcon, EyeIcon, SearchIcon } from "lucide-react";
 import React from "react";
 import {
   Table,

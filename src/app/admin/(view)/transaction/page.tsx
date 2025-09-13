@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
-import { BanIcon, EyeIcon, PlusIcon, SearchIcon } from "lucide-react";
+import { BanIcon, EyeIcon, SearchIcon } from "lucide-react";
 import React from "react";
 import {
   Table,
