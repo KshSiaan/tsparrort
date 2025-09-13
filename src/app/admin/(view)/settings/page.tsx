@@ -51,7 +51,7 @@ export default function Page() {
                   </DialogHeader>
                   <p className="text-lg">
                     Name: <span className="font-semibold">Jane Doe</span>
-                  </p>
+                  </p> 
                   <p>Email: example@gmail.com</p>
                   <DialogDescription>
                     Lorem ipsum dolor sit amet consectetur adipisicing elit.

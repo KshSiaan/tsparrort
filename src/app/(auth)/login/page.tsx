@@ -38,7 +38,7 @@ export default function Page() {
       </div>
       <CardFooter className="flex-col gap-4">
         <Button className="w-full" asChild>
-          <Link href="/">Sign in</Link>
+          <Link href="/profile">Sign in</Link>
         </Button>
         <Button className="w-full" variant={"outline"} asChild>
           <Link href="/register">Register</Link>

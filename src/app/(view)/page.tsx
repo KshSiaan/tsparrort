@@ -84,10 +84,10 @@ export default function Home() {
         {/* About Section */}
         <section
           id="about"
-          className="py-16 grid grid-cols-1 md:grid-cols-2 gap-12 px-6 md:px-12"
+          className="py-16 flex justify-center items-center gap-12 px-6 md:px-12"
           aria-labelledby="about-title"
         >
-          <div className="flex justify-center items-center">
+          {/* <div className="flex justify-center items-center">
             <Image
               src={"/image/logo.webp"}
               height={500}
@@ -95,12 +95,15 @@ export default function Home() {
               alt="Cafe branding logo"
               className="w-40 h-40 md:w-64 md:h-64 object-contain"
             />
-          </div>
+          </div> */}
           <div className="w-full md:w-3/4">
-            <h1 id="about-title" className="font-bold text-2xl md:text-4xl">
+            <h1
+              id="about-title"
+              className="font-bold text-2xl md:text-4xl text-center"
+            >
               About The Screaming Parrots Cafe
             </h1>
-            <p className="mt-4 text-base md:text-lg font-semibold leading-relaxed">
+            <p className="mt-4 text-base md:text-lg font-semibold leading-relaxed text-center">
               Welcome to <strong>The Screaming Parrots Cafe</strong>: Desserts +
               Tea + Bites, where vibrant flavors and a cozy atmosphere create a
               delightful escape. Enjoy handcrafted desserts, an exquisite

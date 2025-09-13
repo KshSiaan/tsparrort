@@ -51,7 +51,7 @@ export default function Navbar() {
           </Button>
         ))}
         <Button
-          className="bg-background hover:bg-background/80 rounded-full text-primary"
+          className="text-background hover:text-green-950 shadow-none! transition-colors no-underline! cursor-pointer"
           aria-label="Order desserts and tea online"
           asChild
         >
@@ -61,13 +61,13 @@ export default function Navbar() {
             Order online
           </Link>
         </Button>
-        {/* <Button
+        <Button
           className="bg-background hover:bg-background/80 rounded-full text-primary"
           aria-label="Order desserts and tea online"
           asChild
         >
           <Link href={`/login`}>Log in / Sign up</Link>
-        </Button> */}
+        </Button>
       </div>
       <Sheet>
         <SheetTrigger asChild>
