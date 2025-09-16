@@ -90,8 +90,9 @@ export default function ProductSection() {
         {/* Button always above backdrop */}
         <div className="relative z-50">
           <Button
-            className="w-full flex justify-center items-center rounded-none!"
+            className="w-full flex justify-center items-center rounded-none! py-6"
             onClick={() => setIsOpen((prev) => !prev)}
+            size={"lg"}
           >
             {selectedCat}{" "}
             <ChevronDown
@@ -117,7 +118,7 @@ export default function ProductSection() {
         <AnimatePresence>
           {isOpen && (
             <motion.div
-              className="absolute top-full left-0 w-full bg-white z-40 shadow-lg rounded-b-md"
+              className="absolute top-full left-0 w-full bg-white z-40 shadow-lg"
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
@@ -128,8 +129,9 @@ export default function ProductSection() {
                   selectedCat !== x && (
                     <Button
                       key={x}
-                      className="w-full justify-center rounded-none"
+                      className="w-full justify-center rounded-none! py-6"
                       variant={"ghost"}
+                      size={"lg"}
                       onClick={() => {
                         setSelectedCat(x);
                         setIsOpen(false);
