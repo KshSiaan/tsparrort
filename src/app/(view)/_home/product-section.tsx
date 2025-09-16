@@ -37,7 +37,7 @@ export default function ProductSection() {
   return (
     <section
       id="featured"
-      className="mt-12 px-6 md:px-12"
+      className="mt-12 lg:px-6 md:px-12 relative"
       aria-labelledby="featured-title"
     >
       <div className="flex justify-center items-center mb-12">
@@ -60,45 +60,43 @@ export default function ProductSection() {
       </div>
       <h2
         id="featured-title"
-        className="text-2xl md:text-3xl font-bold text-center"
+        className="text-2xl md:text-3xl font-bold text-center bg-primary pt-6 text-background!"
       >
         Our Best Sellers
       </h2>
-      <p className="font-semibold text-center mt-4 md:mt-6 text-base md:text-lg">
+      <p className="font-semibold text-center pt-4 md:pt-6 text-base bg-primary md:text-lg text-background!">
         Discover the menu items our customers love most.
       </p>
-      <div className=" md:flex py-6 hidden justify-center items-center flex-wrap gap-6 w-2/3  mx-auto">
-        {itemsSlot.map((x) => (
-          <Button
-            key={x}
-            variant={selectedCat === x ? "default" : "outline"}
-            onClick={() => {
-              setSelectedCat(x);
-            }}
-          >
-            {x}
-          </Button>
-        ))}
+      <div className="sticky top-0 z-20 bg-primary backdrop-blur-md py-4">
+        <div className="md:flex hidden justify-center items-center flex-wrap gap-6 w-2/3 mx-auto">
+          {itemsSlot.map((x) => (
+            <Button
+              key={x}
+              className="shadow-none!"
+              variant={selectedCat === x ? "outline" : "default"}
+              onClick={() => setSelectedCat(x)}
+            >
+              {x}
+            </Button>
+          ))}
+        </div>
+
+        <div className="md:hidden p-4">
+          <Select value={selectedCat} onValueChange={(e) => setSelectedCat(e)}>
+            <SelectTrigger className="w-full text-background!">
+              <SelectValue placeholder="Popular items" />
+            </SelectTrigger>
+            <SelectContent>
+              {itemsSlot.map((x) => (
+                <SelectItem value={x} key={x}>
+                  {x}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
       </div>
-      <div className="block md:hidden w-2/3 mx-auto mt-6">
-        <Select
-          value={selectedCat}
-          onValueChange={(e) => {
-            setSelectedCat(e);
-          }}
-        >
-          <SelectTrigger className="w-full">
-            <SelectValue placeholder="All" />
-          </SelectTrigger>
-          <SelectContent>
-            {itemsSlot.map((x) => (
-              <SelectItem value={x} key={x}>
-                {x}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
+
       <div className="mt-12 mx-auto max-w-6xl grid grid-cols-2 lg:grid-cols-3 gap-6">
         {items.map((x) => (
           <Card
