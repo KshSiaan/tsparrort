@@ -10,7 +10,7 @@ export default function Home() {
   return (
     <>
       <header className="w-dvw p-0!">
-        <div className="relative min-h-[82dvh] w-full flex flex-col md:flex-row items-center justify-center px-8 md:px-[10%] overflow-hidden">
+        <div className="relative space-y-6! py-12 lg:min-h-[82dvh] w-full flex flex-col md:flex-row items-center justify-center px-8 md:px-[10%] overflow-hidden">
           <div className="md:hidden flex-1 flex flex-col justify-center items-start text-primary space-y-4 md:space-y-6 z-10">
             <Link
               href={
@@ -22,13 +22,7 @@ export default function Home() {
             </Link>
           </div>
 
-          <div className="flex-1 flex justify-center items-center relative z-0">
-            <div className="absolute inset-0 rounded-3xl scale-105 -top-5">
-              <div className="h-12 w-full font-bold text-xl text-foreground flex justify-center items-center">
-                &quot;Customers Favorite&quot;
-              </div>
-            </div>
-
+          <div className="flex justify-center items-center relative z-0">
             <div className="">
               <Image
                 src="/image/header-img.png"

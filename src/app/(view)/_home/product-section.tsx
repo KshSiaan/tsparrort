@@ -8,18 +8,12 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import Image from "next/image";
-
-import { HandPlatter } from "lucide-react";
+import { ChevronDown, HandPlatter } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { items } from "@/lib/products";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { motion, AnimatePresence } from "framer-motion";
+
 const itemsSlot = [
   "Popular Items",
   "Savory Crepes, Breakfast & Brunch",
@@ -32,14 +26,18 @@ const itemsSlot = [
   "Sugarcane",
   "Real Fruit Puree",
 ];
+
 export default function ProductSection() {
-  const [selectedCat, setSelectedCat] = useState<string>("");
+  const [selectedCat, setSelectedCat] = useState<string>(itemsSlot[0]);
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
     <section
       id="featured"
       className="mt-12 lg:px-6 md:px-12 relative"
       aria-labelledby="featured-title"
     >
+      {/* Follow Us button */}
       <div className="flex justify-center items-center mb-12">
         <Button
           className={cn(
@@ -58,45 +56,95 @@ export default function ProductSection() {
           </a>
         </Button>
       </div>
+
+      {/* Title */}
       <h2
         id="featured-title"
-        className="text-2xl md:text-3xl font-bold text-center bg-primary pt-6 text-background!"
+        className="text-2xl md:text-3xl font-bold text-center pt-6"
       >
         Our Best Sellers
       </h2>
-      <p className="font-semibold text-center pt-4 md:pt-6 text-base bg-primary md:text-lg text-background!">
+      <p className="font-semibold text-center pt-4 md:pt-6 text-base  md:text-lg">
         Discover the menu items our customers love most.
       </p>
-      <div className="sticky top-0 z-20 bg-primary backdrop-blur-md py-4">
+
+      {/* Desktop Category Buttons */}
+      <div className="py-4">
         <div className="md:flex hidden justify-center items-center flex-wrap gap-6 w-2/3 mx-auto">
           {itemsSlot.map((x) => (
             <Button
               key={x}
               className="shadow-none!"
               variant={selectedCat === x ? "outline" : "default"}
+              size={"lg"}
               onClick={() => setSelectedCat(x)}
             >
               {x}
             </Button>
           ))}
         </div>
-
-        <div className="md:hidden p-4">
-          <Select value={selectedCat} onValueChange={(e) => setSelectedCat(e)}>
-            <SelectTrigger className="w-full text-background!">
-              <SelectValue placeholder="Popular items" />
-            </SelectTrigger>
-            <SelectContent>
-              {itemsSlot.map((x) => (
-                <SelectItem value={x} key={x}>
-                  {x}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
       </div>
 
+      {/* Sticky Mobile Dropdown */}
+      <div className="w-full sticky top-0 z-40 md:hidden bg-white">
+        {/* Button always above backdrop */}
+        <div className="relative z-50">
+          <Button
+            className="w-full flex justify-center items-center rounded-none!"
+            onClick={() => setIsOpen((prev) => !prev)}
+          >
+            {selectedCat}{" "}
+            <ChevronDown
+              className={isOpen ? "rotate-180 transition" : "transition"}
+            />
+          </Button>
+        </div>
+
+        {/* Backdrop */}
+        <AnimatePresence>
+          {isOpen && (
+            <motion.div
+              className="fixed inset-0 bg-black/50 z-30" // lower than button
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setIsOpen(false)}
+            />
+          )}
+        </AnimatePresence>
+
+        {/* Dropdown */}
+        <AnimatePresence>
+          {isOpen && (
+            <motion.div
+              className="absolute top-full left-0 w-full bg-white z-40 shadow-lg rounded-b-md"
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.25 }}
+            >
+              {itemsSlot.map(
+                (x) =>
+                  selectedCat !== x && (
+                    <Button
+                      key={x}
+                      className="w-full justify-center rounded-none"
+                      variant={"ghost"}
+                      onClick={() => {
+                        setSelectedCat(x);
+                        setIsOpen(false);
+                      }}
+                    >
+                      {x}
+                    </Button>
+                  )
+              )}
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+
+      {/* Products Grid */}
       <div className="mt-12 mx-auto max-w-6xl grid grid-cols-2 lg:grid-cols-3 gap-6">
         {items.map((x) => (
           <Card
@@ -122,12 +170,7 @@ export default function ProductSection() {
             </CardHeader>
             <div className="bg-primary/10 backdrop-brightness-20 opacity-0 hover:opacity-100! h-full w-full absolute transition-all flex justify-center items-center">
               <Button asChild>
-                <Link
-                  // href={
-                  //   "https://order.online/store/the-screaming-parrots-cafe:-desserts-+-tea-+-bites-redmond-34952133/?hideModal=true&pickup=true&redirected=true"
-                  // }
-                  href={`/${x.id}`}
-                >
+                <Link href={`/${x.id}`}>
                   <HandPlatter /> Order now
                 </Link>
               </Button>
