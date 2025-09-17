@@ -183,7 +183,7 @@ export default function ProductSection() {
                 </Link>
               </Button>
             </div> */}
-            <CardFooter className="w-full flex justify-between items-center">
+            <CardFooter className="w-full flex justify-center gap-6 items-center">
               <Button
                 onClick={() => {
                   if (cart) {
