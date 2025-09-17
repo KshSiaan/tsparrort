@@ -14,7 +14,7 @@ import { useCart } from "@/context/cart-context";
 import Image from "next/image";
 import Link from "next/link";
 
-export function CartSidebar() {
+export function CartSidebar({ ghost }: { ghost?: boolean }) {
   const {
     cart,
     updateQuantity,
@@ -28,7 +28,7 @@ export function CartSidebar() {
     <Sheet>
       <SheetTrigger asChild>
         <Button
-          variant="outline"
+          variant={ghost ? "ghost" : "outline"}
           size="icon"
           className="relative bg-transparent"
         >

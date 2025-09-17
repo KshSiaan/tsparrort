@@ -1,6 +1,6 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 import { items } from "@/lib/products";
 import {
@@ -220,7 +220,38 @@ export default function ProductPage() {
             </div>
           </div>
         </div>
-
+        <div className="pb-4">
+          <h4 className="font-semibold text-muted-foreground">Pack Size:</h4>
+        </div>
+        <div className="mb-12 grid grid-cols-3  gap-2 lg:gap-6">
+          <Card className="aspect-video py-3 gap-2 hover:bg-primary/80 hover:text-background transition-colors flex flex-col justify-between rounded-sm">
+            <CardHeader className="px-3">
+              <CardTitle className="lg:text-xl">4 Pack</CardTitle>
+            </CardHeader>
+            <CardContent className="px-3 font-semibold text-2xl lg:text-6xl">
+              $32
+            </CardContent>
+          </Card>
+          <Card className="aspect-video py-3 gap-2 hover:bg-primary/80 hover:text-background transition-colors flex flex-col justify-between rounded-sm">
+            <CardHeader className="px-3">
+              <CardTitle className="lg:text-xl">8 Pack</CardTitle>
+            </CardHeader>
+            <CardContent className="px-3 font-semibold text-2xl lg:text-6xl">
+              $48
+            </CardContent>
+          </Card>
+          <Card className="aspect-video relative py-3 gap-2 hover:bg-primary/80 hover:text-background transition-colors flex flex-col justify-between border-primary border-2 rounded-sm">
+            <div className="absolute right-2 -top-6 rounded-full size-12 bg-primary text-[8px] text-background font-bold flex justify-center items-center text-center">
+              Shipping Free
+            </div>
+            <CardHeader className="px-3">
+              <CardTitle className="lg:text-xl">12 Pack</CardTitle>
+            </CardHeader>
+            <CardContent className="px-3 font-semibold text-2xl lg:text-6xl">
+              $99
+            </CardContent>
+          </Card>
+        </div>
         {/* Reviews Section */}
         {/* <section className="mb-12">
           <ProductReviews productId={product.id} />
