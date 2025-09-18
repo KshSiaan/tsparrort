@@ -3,13 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 import { items } from "@/lib/products";
-import {
-  MinusIcon,
-  PlusIcon,
-  ArrowLeft,
-  Share2,
-  Loader2Icon,
-} from "lucide-react";
+import { MinusIcon, PlusIcon, ArrowLeft, Loader2Icon } from "lucide-react";
 import Image from "next/image";
 import { notFound, useParams } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -19,15 +13,25 @@ import { useCart } from "@/context/cart-context";
 import { RelatedProducts } from "@/components/related-products";
 import { CartSidebar } from "@/components/cart-sidebar";
 import { toast } from "sonner";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+} from "@/components/ui/carousel";
+import { cn } from "@/lib/utils";
 
 export default function ProductPage() {
   const { id } = useParams();
   const [quantity, setQuantity] = useState(1);
-  const { addToCart } = useCart();
+  const [selectedPack, setSelectedPack] = useState<string | null>(null);
+
+  const { addToCart, removeFromCart } = useCart();
   const [mounted, setMounted] = useState<boolean>(false);
   useEffect(() => {
     setMounted(true);
   }, []);
+
   if (!mounted) {
     return (
       <div className={`flex justify-center items-center h-24 mx-auto`}>
@@ -57,29 +61,34 @@ export default function ProductPage() {
     });
   };
 
-  const handleShare = async () => {
-    if (navigator.share) {
-      try {
-        await navigator.share({
-          title: product.name,
-          text: `Check out this delicious ${product.name}!`,
-          url: window.location.href,
-        });
-      } catch (error) {
-        console.log("Error sharing:", error);
-      }
-    } else {
-      // Fallback: copy to clipboard
-      navigator.clipboard.writeText(window.location.href);
-      toast.success("Link copied!", {
-        description: "Product link copied to clipboard.",
-      });
-    }
-  };
-
+  // const handleShare = async () => {
+  //   if (navigator.share) {
+  //     try {
+  //       await navigator.share({
+  //         title: product.name,
+  //         text: `Check out this delicious ${product.name}!`,
+  //         url: window.location.href,
+  //       });
+  //     } catch (error) {
+  //       console.log("Error sharing:", error);
+  //     }
+  //   } else {
+  //     // Fallback: copy to clipboard
+  //     navigator.clipboard.writeText(window.location.href);
+  //     toast.success("Link copied!", {
+  //       description: "Product link copied to clipboard.",
+  //     });
+  //   }
+  // };
+  const packs = [
+    { title: "4 Pack", price: "$32" },
+    { title: "8 Pack", price: "$48" },
+    { title: "12 Pack", price: "$99", highlight: true },
+  ];
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
+      <div className=""></div>
       <header className="sticky top-0 z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b border-border">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <Button variant="ghost" size="icon" asChild>
@@ -95,37 +104,99 @@ export default function ProductPage() {
       </header>
 
       <main className="container mx-auto px-4 py-8 max-w-6xl">
-        {/* Product Hero Section */}
-        <div className="grid lg:grid-cols-2 gap-8 mb-12">
-          {/* Product Image */}
-          <div className="space-y-4">
-            <div className="relative aspect-square overflow-hidden rounded-2xl bg-card">
-              <Image
-                suppressHydrationWarning
-                fill
-                className="object-cover"
-                src={
-                  product.image ||
-                  `/placeholder.svg?height=600&width=600&query=${
-                    encodeURIComponent(product.name) || "/placeholder.svg"
-                  }`
+        <div className="pb-4">
+          <h4 className="font-semibold text-muted-foreground">Pack Size:</h4>
+        </div>
+        <div className="mb-12 grid grid-cols-3 gap-2 lg:gap-6">
+          {packs.map((pack, i) => (
+            <Card
+              key={i}
+              className={cn(
+                `aspect-video py-3 gap-2 flex flex-col justify-between rounded-sm transition-colors hover:bg-primary cursor-pointer hover:text-background`,
+                selectedPack === pack.title && "bg-primary text-background"
+              )}
+              onClick={() => {
+                setSelectedPack(pack.title);
+                if (id) {
+                  removeFromCart(parseInt(id as string));
                 }
-                alt={product.name}
-                priority
-              />
-              <div className="absolute top-4 right-4 flex gap-2">
-                <Button
-                  variant="secondary"
-                  size="icon"
-                  className="bg-background/80 backdrop-blur"
-                  onClick={handleShare}
-                >
-                  <Share2 className="h-4 w-4" />
-                </Button>
-              </div>
+                addToCart({
+                  id: product.id,
+                  name: product.name,
+                  price: product.price,
+                  image: product.image,
+                });
+              }}
+            >
+              <CardHeader className="px-3">
+                <CardTitle className="lg:text-xl">{pack.title}</CardTitle>
+              </CardHeader>
+              <CardContent className="px-3 font-semibold text-2xl lg:text-6xl">
+                {pack.price}
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+        {/* Product Hero Section */}
+        <div className="grid lg:grid-cols-1 gap-4 mb-12">
+          {/* Product Image */}
+          <Image
+            suppressHydrationWarning
+            height={500}
+            width={500}
+            className="object-cover aspect-video w-full rounded"
+            src={product.image || `/placeholder.svg?height=600&width=600`}
+            alt={product.name}
+            priority
+            draggable={false}
+          />
+          <div className="space-y-4 relative">
+            <div className="overflow-hidden bg-card">
+              <Carousel>
+                <CarouselContent>
+                  <CarouselItem className="basis-1/3">
+                    <Image
+                      suppressHydrationWarning
+                      height={500}
+                      width={500}
+                      className="object-cover aspect-square w-full rounded"
+                      src={
+                        product.image || `/placeholder.svg?height=600&width=600`
+                      }
+                      alt={product.name}
+                      priority
+                    />
+                  </CarouselItem>
+                  <CarouselItem className="basis-1/3">
+                    <Image
+                      suppressHydrationWarning
+                      height={500}
+                      width={500}
+                      className="object-cover aspect-square w-full rounded"
+                      src={
+                        product.image || `/placeholder.svg?height=600&width=600`
+                      }
+                      alt={product.name}
+                      priority
+                    />
+                  </CarouselItem>
+                  <CarouselItem className="basis-1/3">
+                    <Image
+                      suppressHydrationWarning
+                      height={500}
+                      width={500}
+                      className="object-cover aspect-square w-full rounded"
+                      src={
+                        product.image || `/placeholder.svg?height=600&width=600`
+                      }
+                      alt={product.name}
+                      priority
+                    />
+                  </CarouselItem>
+                </CarouselContent>
+              </Carousel>
             </div>
           </div>
-
           {/* Product Details */}
           <div className="space-y-6">
             <div className="space-y-4">
@@ -220,42 +291,6 @@ export default function ProductPage() {
             </div>
           </div>
         </div>
-        <div className="pb-4">
-          <h4 className="font-semibold text-muted-foreground">Pack Size:</h4>
-        </div>
-        <div className="mb-12 grid grid-cols-3  gap-2 lg:gap-6">
-          <Card className="aspect-video py-3 gap-2 hover:bg-primary/80 hover:text-background transition-colors flex flex-col justify-between rounded-sm">
-            <CardHeader className="px-3">
-              <CardTitle className="lg:text-xl">4 Pack</CardTitle>
-            </CardHeader>
-            <CardContent className="px-3 font-semibold text-2xl lg:text-6xl">
-              $32
-            </CardContent>
-          </Card>
-          <Card className="aspect-video py-3 gap-2 hover:bg-primary/80 hover:text-background transition-colors flex flex-col justify-between rounded-sm">
-            <CardHeader className="px-3">
-              <CardTitle className="lg:text-xl">8 Pack</CardTitle>
-            </CardHeader>
-            <CardContent className="px-3 font-semibold text-2xl lg:text-6xl">
-              $48
-            </CardContent>
-          </Card>
-          <Card className="aspect-video relative py-3 gap-2 hover:bg-primary/80 hover:text-background transition-colors flex flex-col justify-between border-primary border-2 rounded-sm">
-            <div className="absolute right-2 -top-6 rounded-full size-12 bg-primary text-[8px] text-background font-bold flex justify-center items-center text-center">
-              Shipping Free
-            </div>
-            <CardHeader className="px-3">
-              <CardTitle className="lg:text-xl">12 Pack</CardTitle>
-            </CardHeader>
-            <CardContent className="px-3 font-semibold text-2xl lg:text-6xl">
-              $99
-            </CardContent>
-          </Card>
-        </div>
-        {/* Reviews Section */}
-        {/* <section className="mb-12">
-          <ProductReviews productId={product.id} />
-        </section> */}
 
         {/* Related Products */}
         <section>
