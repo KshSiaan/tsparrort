@@ -8,7 +8,7 @@ import { UploadIcon } from "lucide-react";
 import Image from "next/image";
 import React, { useState, useEffect } from "react";
 import { Editor } from "primereact/editor";
-export default function Page() {
+export default function Page({ id }: { id?: string }) {
   const [dragging, setDragging] = useState(false);
   const [file, setFile] = useState<File | undefined>();
   const [preview, setPreview] = useState<string | undefined>();
