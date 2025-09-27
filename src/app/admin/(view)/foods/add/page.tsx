@@ -1,12 +1,13 @@
 "use client";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { UploadIcon } from "lucide-react";
 import Image from "next/image";
 import React, { useState, useEffect } from "react";
-
+import { Editor } from "primereact/editor";
 export default function Page() {
   const [dragging, setDragging] = useState(false);
   const [file, setFile] = useState<File | undefined>();
@@ -89,6 +90,49 @@ export default function Page() {
       <div className="space-y-2">
         <Label>Product Description</Label>
         <Textarea className="h-[300px]" />
+      </div>
+
+      <div className="w-full grid grid-cols-3 gap-6">
+        <Card>
+          <CardHeader>
+            <Label>Pack size:</Label>
+            <Input />
+          </CardHeader>
+          <CardContent className="space-y-2">
+            <Label>Price:</Label>
+            <Input />
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader>
+            <Label>Pack size:</Label>
+            <Input />
+          </CardHeader>
+          <CardContent className="space-y-2">
+            <Label>Price:</Label>
+            <Input />
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader>
+            <Label>Pack size:</Label>
+            <Input />
+          </CardHeader>
+          <CardContent className="space-y-2">
+            <Label>Price:</Label>
+            <Input />
+          </CardContent>
+        </Card>
+      </div>
+      <div className="space-y-2">
+        <Card>
+          <CardHeader>
+            <CardTitle>Additional Description (Optional)</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <Editor style={{ minHeight: "300px" }} />
+          </CardContent>
+        </Card>
       </div>
       <div className="">
         <Button>Add item</Button>
