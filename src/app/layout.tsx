@@ -4,6 +4,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { Analytics } from "@vercel/analytics/next";
 import { Toaster } from "@/components/ui/sonner";
 import { CartProvider } from "@/context/cart-context";
+import TanstackProvider from "@/provider/query-provider";
 export const metadata: Metadata = {
   title: "The Screaming Parrots Cafe – Desserts, Tea & Bites in Redmond, WA",
   description:
@@ -47,7 +48,9 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <CartProvider>{children}</CartProvider>
+          <CartProvider>
+            <TanstackProvider>{children}</TanstackProvider>
+          </CartProvider>
           <Toaster />
           <Analytics />
         </ThemeProvider>

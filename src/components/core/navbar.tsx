@@ -1,3 +1,4 @@
+"use client";
 import {
   Sheet,
   SheetContent,
@@ -9,8 +10,15 @@ import { MenuIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "../ui/button";
+import { useCookies } from "react-cookie";
+import { useEffect, useState } from "react";
 
 export default function Navbar() {
+  const [onit, setOnit] = useState(false);
+  const [{ token }] = useCookies(["token"]);
+  useEffect(() => {
+    setOnit(true);
+  }, []);
   return (
     <nav
       className="h-30 m-0! w-full bg-primary flex flex-row justify-between items-center px-6"
@@ -29,9 +37,6 @@ export default function Navbar() {
             />
           </div>
         </Link>
-        <h1 className="hidden md:block text-sm text-background md:text-xl font-bold tracking-tight drop-shadow-sm text-center">
-          The Screaming Parrots
-        </h1>
       </div>
       <h1 className="md:hidden text-lg text-background md:text-6xl font-bold tracking-tight drop-shadow-sm text-center">
         The Screaming Parrots
@@ -61,13 +66,20 @@ export default function Navbar() {
             Order online
           </Link>
         </Button>
-        <Button
-          className="bg-background hover:bg-background/80 rounded-full text-primary"
-          aria-label="Order desserts and tea online"
-          asChild
-        >
-          <Link href={`/login`}>Log in / Sign up</Link>
-        </Button>
+
+        {onit && (
+          <Button
+            className="bg-background hover:bg-background/80 rounded-full text-primary"
+            aria-label="Order desserts and tea online"
+            asChild
+          >
+            {token ? (
+              <Link href={`/profile`}>View Profile</Link>
+            ) : (
+              <Link href={`/login`}>Log in / Sign up</Link>
+            )}
+          </Button>
+        )}
       </div>
       <Sheet>
         <SheetTrigger asChild>
@@ -116,13 +128,6 @@ export default function Navbar() {
                 Order online
               </Link>
             </Button>
-            {/* <Button
-              className="rounded-full!"
-              aria-label="Order desserts and tea online"
-              asChild
-            >
-              <Link href={`/login`}>Log in / Sign up</Link>
-            </Button> */}
           </div>
         </SheetContent>
       </Sheet>

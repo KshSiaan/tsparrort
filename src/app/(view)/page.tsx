@@ -38,8 +38,14 @@ export default function Home() {
       </header>
 
       <main>
+        <div className="px-[7%] mt-12">
+          <h1 className="block text-lg md:text-3xl mb-12 font-bold tracking-tight drop-shadow-sm text-center">
+            The Screaming Parrots
+          </h1>
+          <div className="w-full h-[50dvh] bg-secondary"></div>
+        </div>
         {/* About Section */}
-        <section
+        {/* <section
           id="about"
           className="py-16 flex justify-center items-center gap-12 px-6 md:px-12"
           aria-labelledby="about-title"
@@ -60,7 +66,7 @@ export default function Home() {
               our cafe is the perfect spot to treat yourself.
             </p>
           </div>
-        </section>
+        </section> */}
         <ProductSection />
         {/* FAQs Section */}
         <section id="faqs" className="my-24" aria-labelledby="faq-title">
