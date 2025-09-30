@@ -17,6 +17,7 @@ import { useCart } from "@/context/cart-context";
 import Link from "next/link";
 import { useQuery } from "@tanstack/react-query";
 import { getCategoriesApi, getFoods } from "@/lib/api/admin";
+import { blankImg } from "@/lib/config";
 
 const itemsSlot = [
   "Popular Items",
@@ -32,7 +33,7 @@ const itemsSlot = [
 ];
 
 export default function ProductSection() {
-  const [selectedCat, setSelectedCat] = useState<string | undefined>();
+  const [selectedCat, setSelectedCat] = useState<string | undefined>("");
   const [isOpen, setIsOpen] = useState(false);
   const { cart, addToCart, removeFromCart } = useCart();
 
@@ -91,6 +92,14 @@ export default function ProductSection() {
       {/* Desktop Category Buttons */}
       <div className="py-4">
         <div className="md:flex hidden justify-center items-center flex-wrap gap-6 w-2/3 mx-auto">
+          <Button
+            className="shadow-none!"
+            variant={selectedCat === "" ? "outline" : "default"}
+            size={"lg"}
+            onClick={() => setSelectedCat("")}
+          >
+            {"All"}
+          </Button>
           {isPending ? (
             <div className={`flex justify-center items-center h-24 mx-auto`}>
               <Loader2Icon className={`animate-spin`} />
@@ -195,7 +204,7 @@ export default function ProductSection() {
             <div className="w-full aspect-[4/3] flex items-center justify-center bg-white">
               <Link href={`/${x.id}`}>
                 <Image
-                  src={x.image}
+                  src={x.images[0] ?? blankImg}
                   alt={`${x.name} - popular dessert or drink`}
                   width={400}
                   height={400}

@@ -21,7 +21,7 @@ export default function Navbar() {
   }, []);
   return (
     <nav
-      className="h-30 m-0! w-full bg-primary flex flex-row justify-between items-center px-6"
+      className="h-20 m-0! w-full bg-primary flex flex-row justify-between items-center px-6"
       role="navigation"
       aria-label="Main Navigation"
     >
@@ -33,7 +33,7 @@ export default function Navbar() {
               height={240}
               width={240}
               alt="The Screaming Parrots Cafe logo"
-              className="aspect-square! size-14"
+              className="aspect-square! size-10"
             />
           </div>
         </Link>

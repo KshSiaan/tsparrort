@@ -11,7 +11,7 @@ export interface CartItem {
   id: number;
   name: string;
   price: number;
-  image: string;
+  images: string[];
   quantity: number;
 }
 
@@ -51,14 +51,19 @@ export function CartProvider({ children }: { children: ReactNode }) {
   }, [cart, isLoaded]);
 
   const addToCart = (item: Omit<CartItem, "quantity">, quantity = 1) => {
+    const normalizedItem = { ...item, price: Number(item.price) }; // ensure number
     setCart((prev) => {
-      const existing = prev.find((i) => i.id === item.id);
+      const existing = prev.find((i) => i.id === normalizedItem.id);
       if (existing) {
         return prev.map((i) =>
-          i.id === item.id ? { ...i, quantity: i.quantity + quantity } : i
+          i.id === normalizedItem.id
+            ? { ...i, quantity: i.quantity + quantity }
+            : i
         );
       }
-      return [...prev, { ...item, quantity }];
+      console.log([...prev, { ...normalizedItem, quantity }]);
+
+      return [...prev, { ...normalizedItem, quantity }];
     });
   };
 

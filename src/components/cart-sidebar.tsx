@@ -69,7 +69,7 @@ export function CartSidebar({ ghost }: { ghost?: boolean }) {
                     <div className="relative w-16 h-16 rounded-md overflow-hidden bg-muted">
                       <Image
                         src={
-                          item.image ||
+                          item.images[0] ||
                           `/placeholder.svg?height=64&width=64&query=${
                             encodeURIComponent(item.name) || "/placeholder.svg"
                           }`
