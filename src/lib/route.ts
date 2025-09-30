@@ -2,6 +2,7 @@ import { IconUsers } from "@tabler/icons-react";
 import {
   Banknote,
   GalleryVerticalEndIcon,
+  ImageIcon,
   LayoutDashboardIcon,
   PopcornIcon,
   SlidersHorizontalIcon,
@@ -18,6 +19,11 @@ export const route = {
       title: "Dashboard",
       url: `${ADMIN_PREFIX}/dashboard`,
       icon: LayoutDashboardIcon,
+    },
+    {
+      title: "Banner",
+      url: `${ADMIN_PREFIX}/banner`,
+      icon: ImageIcon,
     },
     {
       title: "Category Management",

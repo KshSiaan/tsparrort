@@ -6,6 +6,7 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import ProductSection from "./_home/product-section";
 import { CartSidebar } from "@/components/cart-sidebar";
+import Banner from "./_home/banner";
 
 export default function Home() {
   return (
@@ -42,7 +43,7 @@ export default function Home() {
           <h1 className="block text-lg md:text-3xl mb-12 font-bold tracking-tight drop-shadow-sm text-center">
             The Screaming Parrots
           </h1>
-          <div className="w-full h-[50dvh] bg-secondary"></div>
+          <Banner />
         </div>
         {/* About Section */}
         {/* <section

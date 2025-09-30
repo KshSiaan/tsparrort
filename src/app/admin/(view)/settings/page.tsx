@@ -1,3 +1,4 @@
+"use client";
 import {
   Card,
   CardContent,
@@ -13,9 +14,21 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { getFeedbacks } from "@/lib/api/base";
+import { idk } from "@/lib/utils";
+import { useQuery } from "@tanstack/react-query";
+import { Loader2Icon } from "lucide-react";
 import React from "react";
+import { useCookies } from "react-cookie";
 
 export default function Page() {
+  const [{ token }] = useCookies(["token"]);
+  const { data, isPending } = useQuery({
+    queryKey: ["feedbacks"],
+    queryFn: (): idk => {
+      return getFeedbacks({ token });
+    },
+  });
   return (
     <main className="p-6">
       <Card>
@@ -27,41 +40,37 @@ export default function Page() {
           </CardDescription>
         </CardHeader>
         <CardContent className="grid grid-cols-4 gap-6">
-          {Array(9)
-            .fill("")
-            .map((_, i) => (
-              <Dialog key={i}>
+          {isPending ? (
+            <div className={`flex justify-center items-center h-24 mx-auto`}>
+              <Loader2Icon className={`animate-spin`} />
+            </div>
+          ) : (
+            data.data.data.map((x: idk) => (
+              <Dialog key={x.id}>
                 <DialogTrigger asChild>
                   <Card>
                     <CardHeader>
-                      <CardTitle>Minor issue with order</CardTitle>
+                      <CardTitle>{x.name}</CardTitle>
                       <CardDescription>
-                        From : <strong>example@gmail.com</strong>
+                        From : <strong>{x.email}</strong>
                       </CardDescription>
-                      <CardDescription>
-                        Lorem ipsum dolor sit amet consectetur, adipisicing
-                        elit. Ipsum illum quia facere...
-                      </CardDescription>
+                      <CardDescription>{x.feedback}</CardDescription>
                     </CardHeader>
                   </Card>
                 </DialogTrigger>
                 <DialogContent>
                   <DialogHeader>
-                    <DialogTitle>Minor issue with order</DialogTitle>
+                    <DialogTitle>Name: {x.name}</DialogTitle>
                   </DialogHeader>
-                  <p className="text-lg">
-                    Name: <span className="font-semibold">Jane Doe</span>
-                  </p> 
-                  <p>Email: example@gmail.com</p>
-                  <DialogDescription>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Quisquam enim perspiciatis, odit explicabo recusandae quam
-                    ad debitis totam laborum unde, pariatur iure esse maxime
-                    voluptatem magnam voluptates quas ab ipsum.
-                  </DialogDescription>
+                  {/* <p className="text-lg">
+                    Name: <span className="font-semibold">{x.name}</span>
+                  </p> */}
+                  <p>{x.email}</p>
+                  <DialogDescription>{x.feedback}</DialogDescription>
                 </DialogContent>
               </Dialog>
-            ))}
+            ))
+          )}
         </CardContent>
       </Card>
     </main>

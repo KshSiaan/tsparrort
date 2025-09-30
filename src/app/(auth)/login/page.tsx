@@ -40,7 +40,7 @@ const formSchema = z.object({
 });
 
 export default function Page() {
-  const [{ token }, setCookie] = useCookies(["token"]);
+  const [, setCookie] = useCookies(["token"]);
   const navig = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),

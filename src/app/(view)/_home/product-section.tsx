@@ -9,12 +9,14 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import Image from "next/image";
-import { ChevronDown, MinusIcon, PlusIcon } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { ChevronDown, Loader2Icon, MinusIcon, PlusIcon } from "lucide-react";
+import { cn, idk } from "@/lib/utils";
 import { items } from "@/lib/products";
 import { motion, AnimatePresence } from "framer-motion";
 import { useCart } from "@/context/cart-context";
 import Link from "next/link";
+import { useQuery } from "@tanstack/react-query";
+import { getCategoriesApi, getFoods } from "@/lib/api/admin";
 
 const itemsSlot = [
   "Popular Items",
@@ -30,9 +32,25 @@ const itemsSlot = [
 ];
 
 export default function ProductSection() {
-  const [selectedCat, setSelectedCat] = useState<string>(itemsSlot[0]);
+  const [selectedCat, setSelectedCat] = useState<string | undefined>();
   const [isOpen, setIsOpen] = useState(false);
   const { cart, addToCart, removeFromCart } = useCart();
+
+  const { data, isPending } = useQuery({
+    queryKey: ["category"],
+    queryFn: (): idk => {
+      return getCategoriesApi();
+    },
+  });
+  const { data: food, isPending: foodPending } = useQuery({
+    queryKey: ["food", selectedCat],
+    queryFn: (): idk => {
+      return getFoods({
+        search: "",
+        filter: selectedCat === "All" ? "" : selectedCat,
+      });
+    },
+  });
   return (
     <section
       id="featured"
@@ -73,17 +91,23 @@ export default function ProductSection() {
       {/* Desktop Category Buttons */}
       <div className="py-4">
         <div className="md:flex hidden justify-center items-center flex-wrap gap-6 w-2/3 mx-auto">
-          {itemsSlot.map((x) => (
-            <Button
-              key={x}
-              className="shadow-none!"
-              variant={selectedCat === x ? "outline" : "default"}
-              size={"lg"}
-              onClick={() => setSelectedCat(x)}
-            >
-              {x}
-            </Button>
-          ))}
+          {isPending ? (
+            <div className={`flex justify-center items-center h-24 mx-auto`}>
+              <Loader2Icon className={`animate-spin`} />
+            </div>
+          ) : (
+            data?.data?.map((x: idk) => (
+              <Button
+                key={x.id}
+                className="shadow-none!"
+                variant={selectedCat === x.name ? "outline" : "default"}
+                size={"lg"}
+                onClick={() => setSelectedCat(x.name)}
+              >
+                {x.name}
+              </Button>
+            ))
+          )}
         </div>
       </div>
 
@@ -96,7 +120,7 @@ export default function ProductSection() {
             onClick={() => setIsOpen((prev) => !prev)}
             size={"lg"}
           >
-            {selectedCat}{" "}
+            {selectedCat ?? "All"}{" "}
             <ChevronDown
               className={isOpen ? "rotate-180 transition" : "transition"}
             />
@@ -126,20 +150,33 @@ export default function ProductSection() {
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.25 }}
             >
-              {itemsSlot.map(
-                (x) =>
-                  selectedCat !== x && (
+              {selectedCat !== "All" && (
+                <Button
+                  className="w-full justify-center rounded-none! py-6"
+                  variant={"ghost"}
+                  size={"lg"}
+                  onClick={() => {
+                    setSelectedCat("All");
+                    setIsOpen(false);
+                  }}
+                >
+                  All
+                </Button>
+              )}
+              {data?.data?.map(
+                (x: idk) =>
+                  selectedCat !== x.name && (
                     <Button
-                      key={x}
+                      key={x.id}
                       className="w-full justify-center rounded-none! py-6"
                       variant={"ghost"}
                       size={"lg"}
                       onClick={() => {
-                        setSelectedCat(x);
+                        setSelectedCat(x.name);
                         setIsOpen(false);
                       }}
                     >
-                      {x}
+                      {x.name}
                     </Button>
                   )
               )}
@@ -150,7 +187,7 @@ export default function ProductSection() {
 
       {/* Products Grid */}
       <div className="mt-12 mx-auto max-w-6xl grid grid-cols-2 lg:grid-cols-3 gap-6">
-        {items.map((x) => (
+        {food?.data?.data.map((x: idk) => (
           <Card
             key={x.id}
             className="relative shadow-md hover:shadow-xl transition-shadow rounded-2xl overflow-hidden pt-0 flex flex-col justify-between"

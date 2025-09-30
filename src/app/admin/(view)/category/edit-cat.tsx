@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import {
   Dialog,
   DialogContent,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -12,23 +13,26 @@ import { Button } from "@/components/ui/button";
 import { idk } from "@/lib/utils";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useCookies } from "react-cookie";
-import { createCategoriesApi } from "@/lib/api/admin";
+import { createCategoriesApi, editCategoriesApi } from "@/lib/api/admin";
 import { toast } from "sonner";
 export default function EditCat({ x }: { x: idk }) {
   const qcl = useQueryClient();
-  const [cat, setCat] = useState<string>("");
+  const [cat, setCat] = useState<string>(x.name);
   const [{ token }] = useCookies(["token"]);
   const { mutate, isPending } = useMutation({
-    mutationKey: ["add_cat"],
+    mutationKey: ["update_cat"],
     mutationFn: () => {
-      return createCategoriesApi({ body: { name: cat }, token });
+      return editCategoriesApi({
+        id: x.id,
+        body: { name: cat, _method: "PUT" },
+        token,
+      });
     },
     onError: (err) => {
       toast.error(err.message ?? "Failed to complete this request");
     },
     onSuccess: (res: idk) => {
       qcl.invalidateQueries({ queryKey: ["category"] });
-      setCat("");
       toast.success(res.message ?? "Successfully created category");
     },
   });
@@ -44,7 +48,7 @@ export default function EditCat({ x }: { x: idk }) {
         <DialogHeader>
           <DialogTitle>Edit {x.name}</DialogTitle>
         </DialogHeader>
-        <div className="">
+        <div className="space-y-2">
           <Label>Category name:</Label>
           <Input
             value={cat}
@@ -53,6 +57,11 @@ export default function EditCat({ x }: { x: idk }) {
             }}
           />
         </div>
+        <DialogFooter>
+          <Button onClick={onAdd} disabled={isPending}>
+            {isPending ? "Updating" : "Confirm"}
+          </Button>
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   );

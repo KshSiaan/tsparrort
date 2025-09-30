@@ -11,6 +11,7 @@ import { useCookies } from "react-cookie";
 import AddCat from "./add-cat";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
+import EditCat from "./edit-cat";
 
 export default function Page() {
   const [{ token }] = useCookies(["token"]);
@@ -46,12 +47,13 @@ export default function Page() {
               ))}
           </>
         ) : (
-          data.data.map((x: { name: string; id: string }) => (
+          data?.data?.map((x: { name: string; id: string }) => (
             <Card key={x.id}>
               <CardHeader className="flex justify-center items-center">
                 <CardTitle>{x.name}</CardTitle>
               </CardHeader>
               <CardFooter className="grid grid-cols-2 gap-2">
+                <EditCat x={x} />
                 <Button
                   variant={"destructive"}
                   className="cursor-pointer"
