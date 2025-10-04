@@ -2,6 +2,13 @@ import { apiConfig } from "../config"
 import { howl } from "../utils"
 
 
+//>>>>>>>>>>>>> Dashboard <<<<<<<<<<<<<<<
+
+export const getDashboard = async (token:string) => {
+  return howl("/admin/basic-info", { method: "GET" ,token:token})
+}
+
+
 //>>>>>>>>>>>>> Categories <<<<<<<<<<<<<<<
 
 export const getCategoriesApi = async () => {

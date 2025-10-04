@@ -52,9 +52,9 @@ export default function Page() {
           </div>
         </div>
         <div className="flex items-end gap-6">
-          <Button variant={"link"} asChild>
+          {/* <Button variant={"link"} asChild>
             <Link href={"/profile/edit"}>Edit Profile</Link>
-          </Button>
+          </Button> */}
           <Button
             variant={"destructive"}
             className="cursor-pointer"

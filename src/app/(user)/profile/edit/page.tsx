@@ -1,3 +1,4 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -8,10 +9,21 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { getProfileApi } from "@/lib/api/auth";
+import { idk } from "@/lib/utils";
+import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect } from "react";
+import { useCookies } from "react-cookie";
 
 export default function Page() {
+  const [{ token }] = useCookies(["token"]);
+  const { data } = useQuery({
+    queryKey: ["profile"],
+    queryFn: (): idk => {
+      return getProfileApi(token);
+    },
+  });
   return (
     <main className="min-h-dvh w-full flex justify-center items-center">
       <Card className="w-[40dvw] h-auto">
