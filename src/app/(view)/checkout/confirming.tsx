@@ -1,14 +1,13 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useCookies } from "react-cookie";
 import { checkCheckoutStatusApi } from "@/lib/api/base";
 import { Loader2Icon, CheckCircle, Clock } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
-import { idk } from "@/lib/utils";
 import { useCart } from "@/hooks/use-cart";
+import { idk } from "@/lib/utils";
 
 export default function Confirming({
   data,
@@ -22,13 +21,28 @@ export default function Confirming({
 }) {
   const { clearCart } = useCart();
   const [{ token }] = useCookies(["token"]);
-  const router = useRouter();
+  const [popupClosed, setPopupClosed] = useState(false);
+
+  // 1️⃣ open Clover popup when data.href is ready
+  const openCloverPopup = () => {
+    if (!data?.href) return;
+    const popup = window.open(data.href, "_blank", "width=500,height=700");
+
+    const interval = setInterval(() => {
+      if (!popup || popup.closed) {
+        clearInterval(interval);
+        setPopupClosed(true);
+      }
+    }, 500);
+  };
+
   useEffect(() => {
     if (data?.href) {
-      router.push(data.href);
-      clearCart();
+      openCloverPopup();
     }
-  }, [data]);
+  }, [data?.href]);
+
+  // 2️⃣ poll backend for order status once popup is closed
   const {
     data: status,
     isPending,
@@ -37,12 +51,12 @@ export default function Confirming({
     queryKey: ["checkoutStatus", data?.checkoutSessionId],
     queryFn: (): idk =>
       checkCheckoutStatusApi({ token, id: data?.checkoutSessionId! }),
-    enabled: !!data?.checkoutSessionId,
+    enabled: !!data?.checkoutSessionId && popupClosed,
     refetchInterval: 3000,
   });
 
-  // loading / verifying payment state
-  if (isPending || status?.status === false) {
+  // loading / verifying payment
+  if (!popupClosed || isPending || status?.status === false) {
     return (
       <Card className="w-full max-w-md mx-auto p-8 flex flex-col items-center text-center space-y-4 shadow-lg border border-muted rounded-2xl animate-pulse">
         <div className="relative">
@@ -71,21 +85,26 @@ export default function Confirming({
   }
 
   // success UI
-  return (
-    <Card className="w-full max-w-lg p-8 shadow-xl border-t-4 border-primary rounded-2xl text-center">
-      <CheckCircle className="mx-auto mb-4 text-primary" size={56} />
-      <h1 className="text-3xl font-bold mb-2">Order Placed!</h1>
-      <p className="text-lg text-gray-700 mb-6">
-        Your order has been successfully placed and is currently{" "}
-        <span className="font-semibold text-yellow-600">Pending</span>.
-      </p>
-      <Button
-        onClick={() => router.push("/")}
-        className="w-full"
-        variant="default"
-      >
-        Continue Shopping
-      </Button>
-    </Card>
-  );
+  if (status?.status === true) {
+    clearCart(); // empty cart once payment confirmed
+    return (
+      <Card className="w-full max-w-lg p-8 shadow-xl border-t-4 border-primary rounded-2xl text-center">
+        <CheckCircle className="mx-auto mb-4 text-primary" size={56} />
+        <h1 className="text-3xl font-bold mb-2">Order Placed!</h1>
+        <p className="text-lg text-gray-700 mb-6">
+          Your order has been successfully placed and confirmed.
+        </p>
+        <Button
+          onClick={() => (window.location.href = "/")}
+          className="w-full"
+          variant="default"
+        >
+          Continue Shopping
+        </Button>
+      </Card>
+    );
+  }
+
+  // fallback
+  return null;
 }
