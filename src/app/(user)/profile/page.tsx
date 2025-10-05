@@ -19,16 +19,17 @@ import { getProfileApi } from "@/lib/api/auth";
 import { useCookies } from "react-cookie";
 import { idk } from "@/lib/utils";
 import { useRouter } from "next/navigation";
+import MyOrders from "./my-orders";
 
 export default function Page() {
   const [{ token }, , removeCookie] = useCookies(["token"]);
-  const navig = useRouter();
   const { data } = useQuery({
     queryKey: ["profile"],
     queryFn: (): idk => {
       return getProfileApi(token);
     },
   });
+  const navig = useRouter();
   const logOutter = () => {
     removeCookie("token");
     navig.push("/login");
@@ -69,42 +70,7 @@ export default function Page() {
           <CardTitle>My Orders</CardTitle>
         </CardHeader>
         <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Order ID</TableHead>
-                <TableHead>Ordered Item</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead>Date</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              <TableRow>
-                <TableCell>#9ds876f8</TableCell>
-                <TableCell>{items[5].name}</TableCell>
-                <TableCell>
-                  <Badge variant={"outline"}>Pending</Badge>
-                </TableCell>
-                <TableCell>{new Date().toDateString()}</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell>#9ds876f8</TableCell>
-                <TableCell>{items[5].name}</TableCell>
-                <TableCell>
-                  <Badge variant={"outline"}>Pending</Badge>
-                </TableCell>
-                <TableCell>{new Date().toDateString()}</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell>#9ds876f8</TableCell>
-                <TableCell>{items[5].name}</TableCell>
-                <TableCell>
-                  <Badge variant={"outline"}>Pending</Badge>
-                </TableCell>
-                <TableCell>{new Date().toDateString()}</TableCell>
-              </TableRow>
-            </TableBody>
-          </Table>
+          <MyOrders />
         </CardContent>
       </Card>
     </main>

@@ -1,18 +1,10 @@
+"use client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
-import { BanIcon, EyeIcon, SearchIcon } from "lucide-react";
+import { SearchIcon } from "lucide-react";
 import React from "react";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import Users from "./trans";
 
 export default function Page() {
   return (
@@ -45,43 +37,3 @@ export default function Page() {
     </main>
   );
 }
-
-const Users = () => {
-  return (
-    <>
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>ID</TableHead>
-            <TableHead>NAME</TableHead>
-            <TableHead>EMAIL</TableHead>
-            <TableHead>JOINED</TableHead>
-            <TableHead>STATUS</TableHead>
-            <TableHead>ACTION</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {Array.from({ length: 4 }).map((_, i) => (
-            <TableRow key={i}>
-              <TableCell>{i + 1001}</TableCell>
-              <TableCell>Liam Nickson</TableCell>
-              <TableCell>liamnick@gmail.com</TableCell>
-              <TableCell>12 June 2025</TableCell>
-              <TableCell>
-                <Badge variant={"success"}>Active</Badge>
-              </TableCell>
-              <TableCell>
-                <Button variant={"ghost"}>
-                  <EyeIcon />
-                </Button>
-                <Button variant={"ghost"}>
-                  <BanIcon />
-                </Button>
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </>
-  );
-};

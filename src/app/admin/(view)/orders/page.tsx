@@ -1,19 +1,9 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
-import { EllipsisIcon, EyeIcon, SearchIcon } from "lucide-react";
+import { SearchIcon } from "lucide-react";
 import React from "react";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableFooter,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+
 import {
   Select,
   SelectContent,
@@ -21,14 +11,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+
+import Orders from "./orders";
 
 export default function Page() {
   return (
@@ -68,115 +52,10 @@ export default function Page() {
           </CardHeader>
 
           <CardContent>
-            <Users />
+            <Orders />
           </CardContent>
         </Card>
       </section>
     </main>
   );
 }
-
-const Users = () => {
-  return (
-    <>
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>Order ID</TableHead>
-            <TableHead>Customer Name</TableHead>
-            <TableHead>Price</TableHead>
-            <TableHead>Status</TableHead>
-            <TableHead>Action</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {Array.from({ length: 4 }).map((_, i) => (
-            <TableRow key={i}>
-              <TableCell>#{i + 1001}</TableCell>
-              <TableCell>Liam Nickson</TableCell>
-              <TableCell>$345</TableCell>
-              <TableCell>
-                <Badge variant={"success"}>Completed</Badge>
-              </TableCell>
-              <TableCell>
-                <Dialog>
-                  <DialogTrigger asChild>
-                    <Button variant={"ghost"}>
-                      <EyeIcon />
-                    </Button>
-                  </DialogTrigger>
-                  <DialogContent>
-                    <DialogHeader>
-                      <DialogTitle>Order details</DialogTitle>
-                    </DialogHeader>
-                    <div className="w-full p-4 space-y-2">
-                      <p>Order ID: #3000</p>
-                      <p>Customer Name: AB Smith</p>
-                      <p>Price: $12.50</p>
-                      <p className="font-semibold">Item:</p>
-                      <Table>
-                        <TableHeader>
-                          <TableRow>
-                            <TableHead>Name</TableHead>
-                            <TableHead>Quantity</TableHead>
-                            <TableHead>Price</TableHead>
-                          </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                          <TableRow>
-                            <TableCell>Pizza</TableCell>
-                            <TableCell>2</TableCell>
-                            <TableCell>$250</TableCell>
-                          </TableRow>
-                        </TableBody>
-                        <TableFooter>
-                          <TableRow>
-                            <TableCell colSpan={2}>Total</TableCell>
-                            <TableCell className="">$250.00</TableCell>
-                          </TableRow>
-                        </TableFooter>
-                      </Table>
-                    </div>
-                  </DialogContent>
-                </Dialog>
-                <Dialog>
-                  <DialogTrigger asChild>
-                    <Button variant={"ghost"}>
-                      <EllipsisIcon />
-                    </Button>
-                  </DialogTrigger>
-                  <DialogContent>
-                    <DialogHeader className="border-b pb-4">
-                      <DialogTitle>Change Order Status</DialogTitle>
-                    </DialogHeader>
-                    <div className="flex items-center gap-4">
-                      <p>Current Status:</p>{" "}
-                      <Badge variant={"secondary"}>Pending</Badge>
-                    </div>
-                    <div className="">
-                      <Select>
-                        <SelectTrigger className="w-full">
-                          <SelectValue placeholder="Select Status" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="pending">Pending</SelectItem>
-                          <SelectItem value="completed">Completed</SelectItem>
-                          <SelectItem value="Cancelled">Cancelled</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-                    <DialogFooter>
-                      <Button size={"sm"} className="text-sm">
-                        Confirm Status
-                      </Button>
-                    </DialogFooter>
-                  </DialogContent>
-                </Dialog>
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </>
-  );
-};

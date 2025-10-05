@@ -21,15 +21,17 @@ export async function howl<T>(
   endpoint: string,
   { method = "GET", body, token, headers = {} }: ApiClientOptions = {}
 ): Promise<T> {
-  const res = await fetch(`${API_BASE}${endpoint}`, {
-    method,
-    headers: {
-      "Content-Type": "application/json",
-      ...(token ? { Authorization: `Bearer ${token}` } : {}),
-      ...headers,
-    },
-    body: body ? JSON.stringify(body) : undefined,
-  });
+const res = await fetch(`${API_BASE}${endpoint}`, {
+  method,
+  headers: {
+    "Content-Type": "application/json",
+    Accept: "application/json",
+    ...(token ? { Authorization: `Bearer ${token}` } : {}),
+    ...headers,
+  },
+  body: body ? JSON.stringify(body) : undefined,
+});
+
 
   
   if (!res.ok) {

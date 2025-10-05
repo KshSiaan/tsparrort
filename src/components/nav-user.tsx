@@ -16,6 +16,8 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
+import { useCookies } from "react-cookie";
+import { useRouter } from "next/navigation";
 
 export function NavUser({
   user,
@@ -27,7 +29,8 @@ export function NavUser({
   };
 }) {
   const { isMobile } = useSidebar();
-
+  const navig = useRouter();
+  const [, , removeCookie] = useCookies(["token"]);
   return (
     <SidebarMenu>
       <SidebarMenuItem>
@@ -70,7 +73,12 @@ export function NavUser({
                 </div>
               </div>
             </DropdownMenuLabel>
-            <DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => {
+                removeCookie("token");
+                navig.push("/");
+              }}
+            >
               <IconLogout />
               Log out
             </DropdownMenuItem>

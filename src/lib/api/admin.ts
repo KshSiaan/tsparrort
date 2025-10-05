@@ -116,3 +116,21 @@ export const updateBanner = async ({
 export const getBanner = async () => {
   return howl('/get-banner', { method: "GET",})
 }
+
+//TRANSACTION
+
+export const getTransactionApi = async ({token}:{token: string}) => {
+  return howl(`/admin/get-transactions`, { method: "GET", token })
+}
+
+//Order management
+
+export const getOrdersApi = async ({token}:{token: string}) => {
+  return howl(`/admin/get-orders`, { method: "GET", token })
+}
+export const getViewOrderApi = async ({id,token}:{id:string|number,token: string}) => {
+  return howl(`/admin/view-order/${id}`, { method: "GET", token })
+}
+export const changeOrderStatusApi = async ({id,status,token}:{id:string|number,status:string,token: string}) => {
+  return howl(`/admin/order-status-change?order_id=${id}&status=${status} `, { method: "PATCH", token })
+}
