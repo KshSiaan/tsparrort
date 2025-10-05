@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useCookies } from "react-cookie";
 import { checkCheckoutStatusApi } from "@/lib/api/base";
@@ -22,10 +22,12 @@ export default function Confirming({
   const { clearCart } = useCart();
   const [{ token }] = useCookies(["token"]);
   const [popupClosed, setPopupClosed] = useState(false);
+  const clearedRef = useRef(false); // ensures cart is cleared only once
 
-  // 1️⃣ open Clover popup when data.href is ready
-  const openCloverPopup = () => {
+  // 1️⃣ Open Clover popup
+  useEffect(() => {
     if (!data?.href) return;
+
     const popup = window.open(data.href, "_blank", "width=500,height=700");
 
     const interval = setInterval(() => {
@@ -34,15 +36,11 @@ export default function Confirming({
         setPopupClosed(true);
       }
     }, 500);
-  };
 
-  useEffect(() => {
-    if (data?.href) {
-      openCloverPopup();
-    }
+    return () => clearInterval(interval);
   }, [data?.href]);
 
-  // 2️⃣ poll backend for order status once popup is closed
+  // 2️⃣ Poll backend for payment status
   const {
     data: status,
     isPending,
@@ -55,7 +53,15 @@ export default function Confirming({
     refetchInterval: 3000,
   });
 
-  // loading / verifying payment
+  // 3️⃣ Clear cart once when payment confirmed
+  useEffect(() => {
+    if (status?.status === true && !clearedRef.current) {
+      clearCart();
+      clearedRef.current = true;
+    }
+  }, [status?.status, clearCart]);
+
+  // 4️⃣ Loading / verifying payment
   if (!popupClosed || isPending || status?.status === false) {
     return (
       <Card className="w-full max-w-md mx-auto p-8 flex flex-col items-center text-center space-y-4 shadow-lg border border-muted rounded-2xl animate-pulse">
@@ -75,7 +81,7 @@ export default function Confirming({
     );
   }
 
-  // error handling
+  // 5️⃣ Error handling
   if (isError) {
     return (
       <p className="text-center text-red-500">
@@ -84,9 +90,8 @@ export default function Confirming({
     );
   }
 
-  // success UI
+  // 6️⃣ Success UI
   if (status?.status === true) {
-    clearCart(); // empty cart once payment confirmed
     return (
       <Card className="w-full max-w-lg p-8 shadow-xl border-t-4 border-primary rounded-2xl text-center">
         <CheckCircle className="mx-auto mb-4 text-primary" size={56} />

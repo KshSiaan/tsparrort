@@ -22,7 +22,6 @@ import { viewProductbyId } from "@/lib/api/base";
 export default function ProductPage() {
   const { id } = useParams();
   const [quantity, setQuantity] = useState(1);
-  const [selectedPack, setSelectedPack] = useState<string | null>(null);
   const { addToCart, removeFromCart } = useCart();
   const [mounted, setMounted] = useState(false);
 
@@ -90,33 +89,41 @@ export default function ProductPage() {
         <div className="pb-4">
           <h4 className="font-semibold text-muted-foreground">Pack Size:</h4>
         </div>
-        <div className="mb-12 grid grid-cols-3 gap-2 lg:gap-6">
-          {packs.map((pack: idk, i: number) => (
-            <Card
-              key={i}
-              className={cn(
-                "aspect-video py-3 gap-2 flex flex-col justify-between rounded-sm transition-colors hover:bg-primary cursor-pointer hover:text-background",
-                selectedPack === pack.title && "bg-primary text-background"
-              )}
-              onClick={() => {
-                setSelectedPack(pack.title);
-                removeFromCart(product.id);
-                addToCart({
-                  id: product.id,
-                  name: product.name,
-                  price: parseFloat(product.price),
-                  images: product.images,
-                });
-              }}
-            >
-              <CardHeader className="px-3">
-                <CardTitle className="lg:text-xl">{pack.title}</CardTitle>
-              </CardHeader>
-              <CardContent className="px-3 font-semibold text-2xl lg:text-6xl">
-                {pack.price}
-              </CardContent>
-            </Card>
-          ))}
+        <div className="mb-12 gap-2 lg:gap-6">
+          {packs.length > 0 && (
+            <div className="mb-12">
+              <div className="grid grid-cols-3 gap-2 lg:gap-6 w-full ">
+                {packs.map((pack: idk, i: number) => (
+                  <Card
+                    key={i}
+                    className={cn(
+                      "aspect-video py-3 gap-2 flex flex-col justify-between rounded-sm transition-colors hover:bg-primary cursor-pointer hover:text-background"
+                    )}
+                    onClick={() => {
+                      addToCart(
+                        {
+                          id: product.id,
+                          name: product.name,
+                          price: parseFloat(product.price),
+                          images: product.images,
+                        },
+                        parseInt(pack.size)
+                      );
+                    }}
+                  >
+                    <CardHeader className="px-3">
+                      <CardTitle className="lg:text-xl">
+                        {pack.size} pcs
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent className="px-3 font-semibold text-2xl lg:text-4xl">
+                      ${parseFloat(pack.price).toFixed(2)}
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Product Hero Section */}
@@ -135,7 +142,7 @@ export default function ProductPage() {
             <div className="overflow-hidden bg-card">
               <Carousel>
                 <CarouselContent>
-                  {product.images.map((img: string, idx: number) => (
+                  {product.images.slice(1).map((img: string, idx: number) => (
                     <CarouselItem key={idx} className="basis-1/3">
                       <Image
                         suppressHydrationWarning
