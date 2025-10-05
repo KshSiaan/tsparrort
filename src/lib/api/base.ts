@@ -49,3 +49,9 @@ export const checkCheckoutStatusApi = async ({
 export const getMyOrdersApi = async ({ token }: { token: string }) => {
   return howl("/user/get-my-orders", { method: "GET", token });
 };
+
+export const viewProductbyId = async ({ id}: {id:string }) => {
+  return howl(`/view-product/${id}`, { method: "GET"});
+};
+
+

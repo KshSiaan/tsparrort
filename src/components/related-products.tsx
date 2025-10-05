@@ -4,21 +4,19 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
-import { items } from "@/lib/products";
+import { apiConfig } from "@/lib/config";
 
-interface RelatedProductsProps {
-  currentProductId: number;
+interface RelatedProduct {
+  id: number;
+  name: string;
+  price: string;
+  images: string[];
   category?: string;
+  description?: string;
 }
 
-export function RelatedProducts({ currentProductId }: RelatedProductsProps) {
-  // Get 3 random products excluding the current one
-  const relatedProducts = items
-    .filter((item) => item.id !== currentProductId)
-    .sort(() => Math.random() - 0.5)
-    .slice(0, 3);
-
-  if (relatedProducts.length === 0) {
+export function RelatedProducts({ related }: { related: RelatedProduct[] }) {
+  if (!related || related.length === 0) {
     return null;
   }
 
@@ -28,7 +26,7 @@ export function RelatedProducts({ currentProductId }: RelatedProductsProps) {
         You Might Also Like
       </h3>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        {relatedProducts.map((product) => (
+        {related.map((product) => (
           <Card
             key={product.id}
             className="group hover:shadow-lg transition-shadow duration-300 border-border pt-0!"
@@ -37,10 +35,9 @@ export function RelatedProducts({ currentProductId }: RelatedProductsProps) {
               <div className="relative aspect-square overflow-hidden rounded-t-lg">
                 <Image
                   src={
-                    product.image ||
-                    `/placeholder.svg?height=200&width=200&query=${encodeURIComponent(
-                      product.name
-                    )}`
+                    product.images?.[0]
+                      ? `${apiConfig.base}${product.images?.[0]}`
+                      : ""
                   }
                   alt={product.name}
                   fill
@@ -53,7 +50,7 @@ export function RelatedProducts({ currentProductId }: RelatedProductsProps) {
                 </h4>
                 <div className="flex items-center justify-between">
                   <span className="text-lg font-semibold text-secondary">
-                    ${product.price.toFixed(2)}
+                    ${parseFloat(product.price).toFixed(2)}
                   </span>
                   <Button
                     asChild
