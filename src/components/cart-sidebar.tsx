@@ -13,8 +13,10 @@ import { ShoppingCart, Minus, Plus, Trash2 } from "lucide-react";
 import { useCart } from "@/context/cart-context";
 import Image from "next/image";
 import Link from "next/link";
+import { useCookies } from "react-cookie";
 
 export function CartSidebar({ ghost }: { ghost?: boolean }) {
+  const [{ token }] = useCookies(["token"]);
   const {
     cart,
     updateQuantity,
@@ -138,7 +140,9 @@ export function CartSidebar({ ghost }: { ghost?: boolean }) {
                     className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
                     asChild
                   >
-                    <Link href={"/checkout"}>Proceed to Checkout</Link>
+                    <Link href={token ? "/checkout" : "/login"}>
+                      Proceed to Checkout
+                    </Link>
                   </Button>
                   <Button
                     variant="outline"

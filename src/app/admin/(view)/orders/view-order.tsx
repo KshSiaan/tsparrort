@@ -43,10 +43,13 @@ export default function ViewOrder({ id }: { id: string | number }) {
   const meta = order.metadata;
   const items = order.order_items || [];
 
-  // Calculate total price dynamically
+  // Calculate total price dynamically (handle cents properly)
   const total = items.reduce(
-    (sum: number, item: { price: string; quantity: string }) =>
-      sum + parseFloat(item.price) * parseInt(item.quantity),
+    (sum: number, item: { price: any; quantity: any }) => {
+      const priceInDollars = Number.parseFloat(item.price) / 100 || 0; // convert cents → dollars
+      const quantity = Number.parseInt(item.quantity) || 0;
+      return sum + priceInDollars * quantity;
+    },
     0
   );
 
@@ -95,19 +98,20 @@ export default function ViewOrder({ id }: { id: string | number }) {
           </TableHeader>
 
           <TableBody>
-            {items.map((item: idk) => (
-              <TableRow key={item.id}>
-                <TableCell>{item.name}</TableCell>
-                <TableCell>{item.quantity}</TableCell>
-                <TableCell>${item.price}</TableCell>
-                <TableCell>
-                  $
-                  {(parseFloat(item.price) * parseInt(item.quantity)).toFixed(
-                    2
-                  )}
-                </TableCell>
-              </TableRow>
-            ))}
+            {items.map((item: idk) => {
+              const priceInDollars = Number.parseFloat(item.price) / 100 || 0;
+              const quantity = Number.parseInt(item.quantity) || 0;
+              const itemTotal = priceInDollars * quantity;
+
+              return (
+                <TableRow key={item.id}>
+                  <TableCell>{item.name}</TableCell>
+                  <TableCell>{quantity}</TableCell>
+                  <TableCell>${priceInDollars.toFixed(2)}</TableCell>
+                  <TableCell>${itemTotal.toFixed(2)}</TableCell>
+                </TableRow>
+              );
+            })}
           </TableBody>
 
           <TableFooter>
