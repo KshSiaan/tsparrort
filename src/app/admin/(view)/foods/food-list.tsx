@@ -47,11 +47,11 @@ export default function FoodList() {
   const { data, refetch, isPending } = useQuery({
     queryKey: ["foods"],
     queryFn: (): idk => {
-      return getFoods({ token, search });
+      return getFoods({ search });
     },
   });
   const { mutate } = useMutation({
-    mutationKey: ["delete_food"],
+    mutationKey: ["delete_food", search],
     mutationFn: (id: string) => {
       return deleteFoodById({ id, token });
     },
@@ -81,6 +81,10 @@ export default function FoodList() {
               <Input
                 className="flex-1 outline-none border-none ring-0 shadow-none py-0"
                 placeholder="Search.."
+                value={search}
+                onChange={(e) => {
+                  setSearch(e.target.value);
+                }}
               />
             </div>
 

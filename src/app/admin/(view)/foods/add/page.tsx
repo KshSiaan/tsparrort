@@ -62,7 +62,7 @@ export default function Page() {
   const { data, isPending } = useQuery({
     queryKey: ["category"],
     queryFn: (): idk => {
-      return getCategoriesApi(token);
+      return getCategoriesApi();
     },
   });
   const { mutate, isPending: adding } = useMutation({

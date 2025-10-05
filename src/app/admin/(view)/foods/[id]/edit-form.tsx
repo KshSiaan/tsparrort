@@ -37,7 +37,7 @@ export default function Page({ id }: { id: string }) {
   // Fetch food data
   const { data } = useQuery({
     queryKey: ["view_food", id],
-    queryFn: (): idk => getFoodbyId({ id, token }),
+    queryFn: (): idk => getFoodbyId({ id }),
     enabled: !!id,
   });
 

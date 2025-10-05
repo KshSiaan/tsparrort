@@ -20,11 +20,10 @@ export default function Page() {
       <section className="">
         <Card>
           <CardHeader className="w-full flex flex-col gap-3 border-b md:flex-row md:items-center md:justify-between">
-            <CardTitle>Order Management</CardTitle>
+            <CardTitle className="text-nowrap">Order Management</CardTitle>
 
             <div className="flex flex-col gap-2 sm:flex-row sm:items-center w-full lg:justify-end">
-              {/* Search */}
-              <div
+              {/* <div
                 className={cn(
                   "file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input flex h-9 w-full sm:w-64 rounded-md border bg-transparent px-3 items-center text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm",
                   "focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]",
@@ -37,7 +36,6 @@ export default function Page() {
                   placeholder="Search.."
                 />
               </div>
-              {/* Filter */}
               <Select defaultValue="pending">
                 <SelectTrigger className="w-full sm:w-48">
                   <SelectValue placeholder="Filter" />
@@ -47,7 +45,7 @@ export default function Page() {
                   <SelectItem value="completed">Completed</SelectItem>
                   <SelectItem value="cancelled">Cancelled</SelectItem>
                 </SelectContent>
-              </Select>
+              </Select> */}
             </div>
           </CardHeader>
 

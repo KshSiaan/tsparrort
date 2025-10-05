@@ -18,7 +18,7 @@ export default function Page() {
   const { data, refetch, isPending } = useQuery({
     queryKey: ["category"],
     queryFn: (): idk => {
-      return getCategoriesApi(token);
+      return getCategoriesApi();
     },
   });
   const { mutate: deleteCat, isPending: deleting } = useMutation({
