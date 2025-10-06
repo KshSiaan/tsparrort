@@ -14,12 +14,15 @@ export const registerApi = async (body: {     full_name: string;
   return howl("/register", { method: "POST", body })
 }
 
-export const sendOtpApi = async (body: { otp: string }) => {
+export const verifyOtpApi = async (body: { otp: string }) => {
   return howl("/verify-otp", { method: "POST", body })
 }
 
-export const resetPasswordApi = async (body: { email: string; password: string; confirmPassword: string }, token: string) => {
-  return howl("/reset-password", { method: "POST", body, token })
+export const forgotPasswordApi = async (body: { email: string }) => {
+  return howl("/forgot-password", { method: "POST", body})
+}
+export const resetPasswordApi = async (body: { password: string; password_confirmation: string }, token: string) => {
+  return howl("/change-password", { method: "POST", body, token })
 }
 
 export const changePasswordApi = async (body: { newPassword: string; confirmNewPassword: string; oldPassword: string }, token: string) => {

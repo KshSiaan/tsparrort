@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -12,10 +15,37 @@ import {
   InputOTPGroup,
   InputOTPSlot,
 } from "@/components/ui/input-otp";
-import Link from "next/link";
 import React from "react";
+import { useMutation } from "@tanstack/react-query";
+import { verifyOtpApi } from "@/lib/api/auth";
+import { toast } from "sonner";
+import { idk } from "@/lib/utils";
+import { useCookies } from "react-cookie";
+import { useRouter } from "next/navigation";
 
 export default function Page() {
+  const [otp, setOtp] = useState("");
+  const [, setCookie] = useCookies(["token"]);
+  const navig = useRouter();
+  const { mutate } = useMutation({
+    mutationKey: ["forgot_pass"],
+    mutationFn: () => {
+      return verifyOtpApi({ otp });
+    },
+    onError: (err) => {
+      toast.error(err.message ?? "Failed to complete this request");
+    },
+    onSuccess: (res: idk) => {
+      console.log(res);
+      setCookie("token", res.access_token);
+      navig.push("/admin/new-pass");
+      toast.success(res.message ?? "Verify your OTP sent to email!");
+    },
+  });
+  const handleVerify = () => {
+    mutate();
+  };
+
   return (
     <Card className="w-[90%] lg:w-[40dvw] h-auto">
       <CardHeader>
@@ -30,8 +60,9 @@ export default function Page() {
           Enter the 6-digit code sent to your email
         </CardDescription>
       </CardHeader>
+
       <CardContent className="space-y-4 flex items-center justify-center">
-        <InputOTP maxLength={6}>
+        <InputOTP maxLength={6} value={otp} onChange={(val) => setOtp(val)}>
           <InputOTPGroup>
             <InputOTPSlot index={0} />
           </InputOTPGroup>
@@ -52,9 +83,10 @@ export default function Page() {
           </InputOTPGroup>
         </InputOTP>
       </CardContent>
+
       <CardFooter className="flex-col gap-4">
-        <Button className="w-full" asChild>
-          <Link href={"/admin/new-pass"}>Verify Code</Link>
+        <Button className="w-full" onClick={handleVerify}>
+          Verify Code
         </Button>
       </CardFooter>
     </Card>

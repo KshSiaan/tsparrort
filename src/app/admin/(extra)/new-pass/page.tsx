@@ -63,7 +63,7 @@ export default function Page() {
       toast.error(err.message ?? "Failed to complete this request");
     },
     onSuccess: (res: idk) => {
-      navig.push("/profile");
+      navig.push("/admin/dashboard");
       toast.success(res.message ?? "Successfully updated your password");
     },
   });
@@ -85,7 +85,7 @@ export default function Page() {
           </span>
         </CardTitle>
         <CardDescription className="text-center text-xl">
-          Create a strong, secure password to protect your account.
+          Secure access to your administration dashboard
         </CardDescription>
       </CardHeader>
 
