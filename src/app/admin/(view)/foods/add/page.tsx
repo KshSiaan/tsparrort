@@ -308,7 +308,7 @@ export default function Page() {
                     <FormItem>
                       <FormLabel>Pack size</FormLabel>
                       <FormControl>
-                        <Input {...field} />
+                        <Input {...field} type="number" />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -323,7 +323,7 @@ export default function Page() {
                     <FormItem>
                       <FormLabel>Price</FormLabel>
                       <FormControl>
-                        <Input {...field} />
+                        <Input {...field} type="number" />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -341,7 +341,7 @@ export default function Page() {
                     <FormItem>
                       <FormLabel>Pack size</FormLabel>
                       <FormControl>
-                        <Input {...field} />
+                        <Input {...field} type="number" />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -356,7 +356,7 @@ export default function Page() {
                     <FormItem>
                       <FormLabel>Price</FormLabel>
                       <FormControl>
-                        <Input {...field} />
+                        <Input {...field} type="number" />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -374,7 +374,7 @@ export default function Page() {
                     <FormItem>
                       <FormLabel>Pack size</FormLabel>
                       <FormControl>
-                        <Input {...field} />
+                        <Input {...field} type="number" />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -389,7 +389,7 @@ export default function Page() {
                     <FormItem>
                       <FormLabel>Price</FormLabel>
                       <FormControl>
-                        <Input {...field} />
+                        <Input {...field} type="number" />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
