@@ -3,7 +3,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useCookies } from "react-cookie";
 import { checkCheckoutStatusApi } from "@/lib/api/base";
-import { Loader2Icon, CheckCircle, Clock, RefreshCcw } from "lucide-react";
+import { Loader2Icon, CheckCircle, RefreshCcw } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useCart } from "@/hooks/use-cart";
@@ -24,7 +24,7 @@ export default function Confirming({
   const [popupClosed, setPopupClosed] = useState(false);
   const clearedRef = useRef(false);
 
-  // 1️⃣ Open Clover popup
+  // Open Clover popup
   useEffect(() => {
     if (!data?.href) return;
     const popup = window.open(data.href, "_blank", "width=500,height=700");
@@ -39,23 +39,20 @@ export default function Confirming({
     return () => clearInterval(interval);
   }, [data?.href]);
 
-  // 2️⃣ Poll backend for payment status
+  // Query payment status (manual trigger)
   const {
     data: status,
-    isPending,
-    isError,
-    refetch,
     isFetching,
+    refetch,
+    isError,
   } = useQuery({
     queryKey: ["checkoutStatus", data?.checkoutSessionId],
     queryFn: (): idk =>
       checkCheckoutStatusApi({ token, id: data?.checkoutSessionId! }),
-    enabled: !!data?.checkoutSessionId && popupClosed,
-    refetchInterval: 3000,
-    refetchOnWindowFocus: false,
+    enabled: false, // manual check only
   });
 
-  // 3️⃣ Clear cart once when payment confirmed
+  // Clear cart once on confirmed payment
   useEffect(() => {
     if (status?.status === true && !clearedRef.current) {
       clearCart();
@@ -63,63 +60,7 @@ export default function Confirming({
     }
   }, [status?.status, clearCart]);
 
-  // 4️⃣ Update UI when status turns true (force refresh)
-  useEffect(() => {
-    if (status?.status === true) {
-      setPopupClosed(true);
-    }
-  }, [status?.status]);
-
-  // 5️⃣ Loading / verifying payment
-  if (!popupClosed || isPending || status?.status === false) {
-    return (
-      <Card className="w-full max-w-md mx-auto p-8 flex flex-col items-center text-center space-y-5 shadow-lg border border-muted rounded-2xl">
-        <div className="relative">
-          <Loader2Icon className="h-12 w-12 text-primary animate-spin mx-auto" />
-          <Clock className="h-6 w-6 text-yellow-500 absolute -bottom-2 -right-2 animate-pulse" />
-        </div>
-        <h2 className="text-2xl font-semibold">Confirming Your Payment...</h2>
-        <p className="text-gray-600">
-          Please wait a moment while we verify your transaction.
-          <br />
-          <span className="text-sm text-gray-500">
-            This may take a few seconds.
-          </span>
-        </p>
-
-        {/* 🌀 Manual refresh button */}
-        <Button
-          onClick={() => refetch({ throwOnError: false })}
-          variant="outline"
-          disabled={isFetching}
-          className="flex items-center gap-2"
-        >
-          {isFetching ? (
-            <>
-              <Loader2Icon className="h-4 w-4 animate-spin" />
-              Checking...
-            </>
-          ) : (
-            <>
-              <RefreshCcw className="h-4 w-4" />
-              Check Again
-            </>
-          )}
-        </Button>
-      </Card>
-    );
-  }
-
-  // 6️⃣ Error handling
-  if (isError) {
-    return (
-      <p className="text-center text-red-500">
-        Something went wrong. Try again.
-      </p>
-    );
-  }
-
-  // 7️⃣ Success UI
+  // Success UI
   if (status?.status === true) {
     return (
       <Card className="w-full max-w-lg p-8 shadow-xl border-t-4 border-primary rounded-2xl text-center">
@@ -139,5 +80,36 @@ export default function Confirming({
     );
   }
 
-  return null;
+  // Default UI (after popup closed)
+  return (
+    <Card className="w-full max-w-md mx-auto p-8 text-center shadow-lg border border-muted rounded-2xl space-y-5">
+      <h2 className="text-2xl font-semibold">Confirm Payment from Clover</h2>
+      <p className="text-gray-600">
+        Once you’ve completed payment, click below to verify.
+      </p>
+
+      <Button
+        onClick={() => refetch({ throwOnError: false })}
+        variant="outline"
+        disabled={isFetching}
+        className="flex items-center gap-2 mx-auto"
+      >
+        {isFetching ? (
+          <>
+            <Loader2Icon className="h-4 w-4 animate-spin" />
+            Checking...
+          </>
+        ) : (
+          <>
+            <RefreshCcw className="h-4 w-4" />
+            Check Payment
+          </>
+        )}
+      </Button>
+
+      {isError && (
+        <p className="text-sm text-red-500">Something went wrong. Try again.</p>
+      )}
+    </Card>
+  );
 }

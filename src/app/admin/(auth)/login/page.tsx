@@ -125,7 +125,7 @@ export default function Page() {
               {isPending ? "Logging in..." : "Log In"}
             </Button>
             <Button className="w-fit mx-auto" variant="link" asChild>
-              <Link href={"/admin/reset"}>Forget your password?</Link>
+              <Link href={"/admin/reset"}>Forgot your password?</Link>
             </Button>
           </CardFooter>
         </form>

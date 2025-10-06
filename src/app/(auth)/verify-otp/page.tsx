@@ -38,7 +38,7 @@ export default function Page() {
     onSuccess: (res: idk) => {
       console.log(res);
       setCookie("token", res.access_token);
-      navig.push("/admin/new-pass");
+      navig.push("/new-pass");
       toast.success(res.message ?? "Verify your OTP sent to email!");
     },
   });

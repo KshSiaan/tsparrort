@@ -31,7 +31,7 @@ export default function Page() {
     },
     onSuccess: (res: idk) => {
       toast.success(res.message ?? "Verify your OTP sent to email!");
-      navig.push("/admin/verify-otp");
+      navig.push("/verify-otp");
     },
   });
   return (
