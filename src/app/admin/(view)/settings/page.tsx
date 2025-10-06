@@ -39,7 +39,7 @@ export default function Page() {
             support request.
           </CardDescription>
         </CardHeader>
-        <CardContent className="grid grid-cols-4 gap-6">
+        <CardContent className="grid grid-cols-1 lg:grid-cols-4 gap-6">
           {isPending ? (
             <div className={`flex justify-center items-center h-24 mx-auto`}>
               <Loader2Icon className={`animate-spin`} />

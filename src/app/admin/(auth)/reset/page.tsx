@@ -14,7 +14,7 @@ import React from "react";
 
 export default function Page() {
   return (
-    <Card className="w-[40dvw] h-auto">
+    <Card className="w-[90%] lg:w-[40dvw] h-auto">
       <CardHeader>
         <CardTitle className="text-5xl font-bold flex items-center gap-3 w-full justify-center">
           <span>Reset</span>{" "}

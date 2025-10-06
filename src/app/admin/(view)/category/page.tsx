@@ -37,7 +37,7 @@ export default function Page() {
   return (
     <div className="h-full w-full p-6">
       <AddCat />
-      <div className="grid grid-cols-5 gap-6 mt-6">
+      <div className="grid grid-cols-2 lg:grid-cols-5 gap-6 mt-6">
         {isPending ? (
           <>
             {Array(10)
