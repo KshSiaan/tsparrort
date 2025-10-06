@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { MinusIcon, PlusIcon, ArrowLeft, Loader2Icon } from "lucide-react";
 import Image from "next/image";
-import { notFound, useParams } from "next/navigation";
+import { notFound, useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useCart } from "@/context/cart-context";
@@ -24,7 +24,7 @@ export default function ProductPage() {
   const [quantity, setQuantity] = useState(1);
   const { addToCart, removeFromCart } = useCart();
   const [mounted, setMounted] = useState(false);
-
+  const navig = useRouter();
   const { data, isLoading, isError } = useQuery({
     queryKey: ["view_product", id],
     queryFn: (): idk => viewProductbyId({ id: String(id) }),
@@ -66,6 +66,7 @@ export default function ProductPage() {
   };
 
   const packs = product.packs.length ? product.packs : [];
+  console.log(product);
 
   return (
     <div className="min-h-screen bg-background">
@@ -100,20 +101,34 @@ export default function ProductPage() {
                       "aspect-video py-3 gap-2 flex flex-col justify-between rounded-sm transition-colors hover:bg-primary cursor-pointer hover:text-background"
                     )}
                     onClick={() => {
-                      addToCart(
-                        {
-                          id: product.id,
-                          name: product.name,
-                          price: parseFloat(product.price),
-                          images: product.images,
-                        },
-                        parseInt(pack.size)
+                      // addToCart(
+                      //   {
+                      //     id: pack.id,
+                      //     name: product.name,
+                      //     price: parseFloat(pack.price),
+                      //     images: product.images,
+                      //   },
+                      //   parseInt(pack.pack_size)
+                      // );
+                      if (localStorage.getItem("packBuy")) {
+                        localStorage.removeItem("packBuy");
+                      }
+                      localStorage.setItem(
+                        "packBuy",
+                        JSON.stringify({
+                          product_name: product.name,
+                          product_id: product.id,
+                          pack_id: pack.id,
+                          size: pack.pack_size,
+                          price: pack.price,
+                        })
                       );
+                      navig.push("/checkout_pack");
                     }}
                   >
                     <CardHeader className="px-3">
                       <CardTitle className="lg:text-xl">
-                        {pack.size} pcs
+                        {pack.pack_size} pcs
                       </CardTitle>
                     </CardHeader>
                     <CardContent className="px-3 font-semibold text-2xl lg:text-4xl">

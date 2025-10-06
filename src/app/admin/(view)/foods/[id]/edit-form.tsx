@@ -46,34 +46,15 @@ export default function Page({ id }: { id: string }) {
       setDescription(d.description || "");
       setAdditionalDesc(d.additional_description || "");
 
-      // handle packs
-      let parsedPacks: { pack_size: string; price: string }[] = [];
-
-      if (Array.isArray(d.packs)) {
-        parsedPacks = d.packs.map((p: any) => ({
+      let parsedPacks: { pack_size: string; price: string }[] =
+        d.packs?.map((p: any) => ({
           pack_size: p.pack_size || p.size || "",
           price: p.price || "",
-        }));
-      } else if (typeof d.packs === "string" && d.packs.trim() !== "") {
-        try {
-          const arr = JSON.parse(d.packs);
-          if (Array.isArray(arr)) {
-            parsedPacks = arr.map((p: any) => ({
-              pack_size: p.pack_size || p.size || "",
-              price: p.price || "",
-            }));
-          }
-        } catch {
-          parsedPacks = [];
-        }
-      }
+        })) || [];
 
-      if (!parsedPacks.length) {
-        parsedPacks = [
-          { pack_size: "", price: "" },
-          { pack_size: "", price: "" },
-          { pack_size: "", price: "" },
-        ];
+      // ensure at least 3 packs
+      while (parsedPacks.length < 3) {
+        parsedPacks.push({ pack_size: "", price: "" });
       }
 
       setPacks(parsedPacks);

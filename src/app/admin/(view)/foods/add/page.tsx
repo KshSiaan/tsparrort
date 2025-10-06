@@ -138,14 +138,16 @@ export default function Page() {
     }
 
     // packs
-    const packs: { size: string; price: string }[] = [];
+    const packs: { pack_size: string; price: string }[] = [];
+
     for (let i = 1; i <= 3; i++) {
-      const size = values[`pack${i}_size` as keyof typeof values];
-      const price = values[`pack${i}_price` as keyof typeof values];
+      const size = values[`pack${i}_size` as keyof typeof values] as string;
+      const price = values[`pack${i}_price` as keyof typeof values] as string;
       if (size && price) {
-        packs.push({ size, price });
+        packs.push({ pack_size: size, price });
       }
     }
+
     payload.append("packs", JSON.stringify(packs));
 
     files.forEach((file, index) => {

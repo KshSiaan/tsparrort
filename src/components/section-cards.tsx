@@ -81,7 +81,9 @@ export function SectionCards({ data }: { data: idk }) {
           <CardTitle className="text-2xl font-semibold">
             {stats?.total_revenue ?? 0}
           </CardTitle>
-          <CardDescription>Today&apos;s Revenue</CardDescription>
+          <CardDescription>
+            Today&apos;s Revenue {stats?.today_revenue}
+          </CardDescription>
         </CardContent>
       </Card>
     </div>

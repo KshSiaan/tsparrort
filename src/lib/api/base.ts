@@ -27,7 +27,8 @@ export const checkoutApi = async ({
     city: string;
     zip_code: string;
     country: string;
-    orders: { product_id: string | number; unitQty: string | number }[];
+    // orders: { product_id?: string | number; unitQty?: string | number; pack_id?: number|string; }[];
+    orders:idk
   };
 }) => {
   return howl("/create-checkout", { method: "POST", token, body });
