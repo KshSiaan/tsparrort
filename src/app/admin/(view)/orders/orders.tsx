@@ -78,7 +78,7 @@ export default function Orders() {
         <TableBody>
           {data.orders.map((x: idk) => (
             <TableRow key={x.id}>
-              <TableCell>#{x.id}</TableCell>
+              <TableCell>{x.id}</TableCell>
               <TableCell>{x.user.full_name}</TableCell>
               <TableCell>${x.price}</TableCell>
               <TableCell>
@@ -114,7 +114,11 @@ export default function Orders() {
                     </DialogHeader>
                     <div className="flex items-center gap-4">
                       <p>Current Status:</p>{" "}
-                      <Badge variant={"secondary"}>Pending</Badge>
+                      {x.status === "Completed" ? (
+                        <Badge variant={"success"}>Completed</Badge>
+                      ) : (
+                        <Badge variant={"outline"}>{x.status}</Badge>
+                      )}
                     </div>
                     <div className="">
                       <Select

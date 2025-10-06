@@ -35,7 +35,7 @@ export default function Users() {
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>ID</TableHead>
+            <TableHead>TRANSACTION ID</TableHead>
             <TableHead>NAME</TableHead>
             <TableHead>ADDRESS</TableHead>
             <TableHead>AMOUNT</TableHead>

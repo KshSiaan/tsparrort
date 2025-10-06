@@ -52,6 +52,7 @@ export default function Confirming({
       checkCheckoutStatusApi({ token, id: data?.checkoutSessionId! }),
     enabled: !!data?.checkoutSessionId && popupClosed,
     refetchInterval: 3000,
+    refetchOnWindowFocus: false,
   });
 
   // 3️⃣ Clear cart once when payment confirmed
@@ -62,7 +63,14 @@ export default function Confirming({
     }
   }, [status?.status, clearCart]);
 
-  // 4️⃣ Loading / verifying payment
+  // 4️⃣ Update UI when status turns true (force refresh)
+  useEffect(() => {
+    if (status?.status === true) {
+      setPopupClosed(true);
+    }
+  }, [status?.status]);
+
+  // 5️⃣ Loading / verifying payment
   if (!popupClosed || isPending || status?.status === false) {
     return (
       <Card className="w-full max-w-md mx-auto p-8 flex flex-col items-center text-center space-y-5 shadow-lg border border-muted rounded-2xl">
@@ -81,7 +89,7 @@ export default function Confirming({
 
         {/* 🌀 Manual refresh button */}
         <Button
-          onClick={() => refetch()}
+          onClick={() => refetch({ throwOnError: false })}
           variant="outline"
           disabled={isFetching}
           className="flex items-center gap-2"
@@ -102,7 +110,7 @@ export default function Confirming({
     );
   }
 
-  // 5️⃣ Error handling
+  // 6️⃣ Error handling
   if (isError) {
     return (
       <p className="text-center text-red-500">
@@ -111,7 +119,7 @@ export default function Confirming({
     );
   }
 
-  // 6️⃣ Success UI
+  // 7️⃣ Success UI
   if (status?.status === true) {
     return (
       <Card className="w-full max-w-lg p-8 shadow-xl border-t-4 border-primary rounded-2xl text-center">
