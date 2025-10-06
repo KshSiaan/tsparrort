@@ -5,7 +5,7 @@ import { cookies } from "next/headers";
 import { notFound, redirect } from "next/navigation";
 
 export const metadata: Metadata = {
-  title: "Doogoo - Authenticate",
+  title: "Doogoo",
   description: "DOGOO Login",
 };
 
