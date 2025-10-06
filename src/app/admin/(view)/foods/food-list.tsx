@@ -125,29 +125,103 @@ export default function FoodList() {
                             <EyeIcon />
                           </Button>
                         </DialogTrigger>
-                        <DialogContent className="min-w-[50dvw] rounded-2xl p-6">
-                          <DialogHeader>
-                            <DialogTitle>{x.name}</DialogTitle>
-                          </DialogHeader>
-                          <div className="flex flex-col items-start gap-2">
-                            <div className="w-full grid grid-cols-4 gap-6">
+                        <DialogContent className="min-w-[55dvw] rounded-2xl overflow-hidden shadow-2xl">
+                          <div className="relative">
+                            {/* Product Images */}
+                            <div className="grid grid-cols-3 sm:grid-cols-4 gap-2 p-4 bg-gray-50">
                               {x.images.map((y: string, i: number) => (
                                 <Image
                                   key={y}
-                                  height={248}
-                                  width={248}
+                                  height={250}
+                                  width={250}
                                   src={y ?? blankImg}
                                   alt={`${x.name}${i}`}
-                                  className="w-full aspect-square object-cover rounded-lg shadow-md mx-auto"
+                                  className="w-full aspect-square object-cover rounded-xl transition-transform hover:scale-105 duration-300"
                                 />
                               ))}
                             </div>
-                            <p className="text-lg text-gray-700 font-medium">
-                              Price: ${x.price}
-                            </p>
-                            <DialogDescription className="">
-                              {x.description}
-                            </DialogDescription>
+
+                            {/* Main Info */}
+                            <div className="p-6 space-y-4">
+                              <DialogHeader>
+                                <DialogTitle className="text-2xl font-semibold">
+                                  {x.name}
+                                </DialogTitle>
+                                <p className="text-sm text-muted-foreground">
+                                  {x.category}
+                                </p>
+                              </DialogHeader>
+
+                              <p className="text-lg font-medium">
+                                💵{" "}
+                                <span className="text-gray-800">
+                                  ${x.price}
+                                </span>
+                              </p>
+
+                              {/* Packs */}
+                              {x.packs?.length > 0 && (
+                                <div className="space-y-2">
+                                  <h3 className="text-base font-semibold">
+                                    Available Packs:
+                                  </h3>
+                                  <div className="flex flex-wrap gap-3">
+                                    {x.packs.map((pack: any, i: number) => (
+                                      <div
+                                        key={i}
+                                        className="px-4 py-2 border rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors cursor-default"
+                                      >
+                                        <p className="font-medium text-gray-800">
+                                          {pack.size} pcs – ${pack.price}
+                                        </p>
+                                      </div>
+                                    ))}
+                                  </div>
+                                </div>
+                              )}
+
+                              {/* Description */}
+                              <DialogDescription
+                                className="text-gray-700 leading-relaxed"
+                                dangerouslySetInnerHTML={{
+                                  __html:
+                                    x.additional_description ?? x.description,
+                                }}
+                              />
+
+                              {/* Related Products */}
+                              {x.related?.length > 0 && (
+                                <div className="pt-6 border-t">
+                                  <h3 className="text-lg font-semibold mb-3">
+                                    Related Products
+                                  </h3>
+                                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                                    {x.related.map((rel: any) => (
+                                      <div
+                                        key={rel.id}
+                                        className="rounded-xl border hover:shadow-lg transition-all overflow-hidden bg-white"
+                                      >
+                                        <Image
+                                          height={150}
+                                          width={150}
+                                          src={rel.images?.[0] ?? blankImg}
+                                          alt={rel.name}
+                                          className="w-full aspect-square object-cover"
+                                        />
+                                        <div className="p-2">
+                                          <p className="font-medium">
+                                            {rel.name}
+                                          </p>
+                                          <p className="text-sm text-gray-500">
+                                            ${rel.price}
+                                          </p>
+                                        </div>
+                                      </div>
+                                    ))}
+                                  </div>
+                                </div>
+                              )}
+                            </div>
                           </div>
                         </DialogContent>
                       </Dialog>

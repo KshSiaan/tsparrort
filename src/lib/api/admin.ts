@@ -33,7 +33,7 @@ export const getFoods = async ({search,filter}:{search?:string,filter?:string}) 
   return howl(`/get-products?search=${search??""}&filter=${filter??""}`, { method: "GET", })
 }
 export const getFoodbyId = async ({id,}:{id:string}) => {
-  return howl(`/admin/view-product/${id}`, { method: "GET"})
+  return howl(`/view-product/${id}`, { method: "GET"})
 }
 
 export const addFood = async ({

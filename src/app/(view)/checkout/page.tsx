@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -47,26 +47,15 @@ export default function Page() {
   const [{ token }] = useCookies(["token"]);
   const [confirming, setConfiming] = useState<boolean>(false);
   const [checkData, setCheckData] = useState<idk | undefined>();
+
+  // Fetch profile
   const { data } = useQuery({
     queryKey: ["profile"],
-    queryFn: () => getProfileApi(token),
+    queryFn: (): idk => getProfileApi(token),
     enabled: !!token,
   });
 
-  const { mutate } = useMutation({
-    mutationKey: ["checkout"],
-    mutationFn: (body: PayloadType) => checkoutApi({ token, body }),
-    onError: (err) => {
-      toast.error(err.message ?? "Failed to complete this request");
-    },
-    onSuccess: (res: idk) => {
-      console.log(res);
-      setCheckData(res.response);
-      setConfiming(true);
-      // navig.push("/checkout/complete");
-    },
-  });
-
+  // Form setup
   const form = useForm<CheckoutFormData>({
     resolver: zodResolver(checkoutSchema),
     defaultValues: {
@@ -77,6 +66,36 @@ export default function Page() {
       state: "",
       zip_code: "",
       country: "",
+    },
+  });
+
+  // Prefill form from profile data
+  useEffect(() => {
+    if (data?.data) {
+      const profile = data.data;
+      form.reset({
+        full_name: profile.full_name || "",
+        phone_number: profile.phone_number || "",
+        address: profile.address || "",
+        city: "",
+        state: "",
+        zip_code: "",
+        country: "",
+      });
+    }
+  }, [data, form]);
+
+  // Checkout mutation
+  const { mutate } = useMutation({
+    mutationKey: ["checkout"],
+    mutationFn: (body: PayloadType) => checkoutApi({ token, body }),
+    onError: (err) => {
+      toast.error(err.message ?? "Failed to complete this request");
+    },
+    onSuccess: (res: idk) => {
+      console.log(res);
+      setCheckData(res.response);
+      setConfiming(true);
     },
   });
 
@@ -94,6 +113,7 @@ export default function Page() {
     const payload = { ...values, orders: finalCart };
     mutate(payload);
   };
+
   if (confirming) {
     return (
       <div className="min-h-dvh w-full flex flex-col justify-center items-center">
@@ -101,6 +121,7 @@ export default function Page() {
       </div>
     );
   }
+
   return (
     <main className="min-h-dvh w-full flex flex-col">
       {/* Header */}
@@ -158,7 +179,7 @@ export default function Page() {
                     <FormItem>
                       <FormLabel>Full Name</FormLabel>
                       <FormControl>
-                        <Input placeholder="Mir Shifat Mahmud" {...field} />
+                        <Input {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -171,7 +192,7 @@ export default function Page() {
                     <FormItem>
                       <FormLabel>Phone Number</FormLabel>
                       <FormControl>
-                        <Input placeholder="+8801XXXXXXXXX" {...field} />
+                        <Input {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -184,7 +205,7 @@ export default function Page() {
                     <FormItem>
                       <FormLabel>Address</FormLabel>
                       <FormControl>
-                        <Input placeholder="Mohakhali, Dhaka" {...field} />
+                        <Input {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -198,7 +219,7 @@ export default function Page() {
                       <FormItem>
                         <FormLabel>City</FormLabel>
                         <FormControl>
-                          <Input placeholder="Dhaka" {...field} />
+                          <Input {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -211,7 +232,7 @@ export default function Page() {
                       <FormItem>
                         <FormLabel>State</FormLabel>
                         <FormControl>
-                          <Input placeholder="Dhaka Division" {...field} />
+                          <Input {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -226,7 +247,7 @@ export default function Page() {
                       <FormItem>
                         <FormLabel>ZIP Code</FormLabel>
                         <FormControl>
-                          <Input placeholder="12345" {...field} />
+                          <Input {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -239,7 +260,7 @@ export default function Page() {
                       <FormItem>
                         <FormLabel>Country</FormLabel>
                         <FormControl>
-                          <Input placeholder="Bangladesh" {...field} />
+                          <Input {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>

@@ -17,13 +17,9 @@ import { idk } from "@/lib/utils";
 
 export default function Page({ id }: { id: string }) {
   const [{ token }] = useCookies(["token"]);
-
-  // Drag & Drop / File states
   const [dragging, setDragging] = useState(false);
   const [files, setFiles] = useState<File[]>([]);
   const [previews, setPreviews] = useState<string[]>([]);
-
-  // Form states
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [description, setDescription] = useState("");
@@ -35,7 +31,7 @@ export default function Page({ id }: { id: string }) {
   const [additionalDesc, setAdditionalDesc] = useState("");
 
   // Fetch food data
-  const { data } = useQuery({
+  const { data, isPending } = useQuery({
     queryKey: ["view_food", id],
     queryFn: (): idk => getFoodbyId({ id }),
     enabled: !!id,
@@ -44,31 +40,52 @@ export default function Page({ id }: { id: string }) {
   // Populate form when data is ready
   useEffect(() => {
     if (data?.data) {
-      setName(data.data.name || "");
-      setPrice(data.data.price || "");
-      setDescription(data.data.description || "");
-      setAdditionalDesc(data.data.additional_description || "");
-      setPacks(
-        data.data.packs?.length
-          ? data.data.packs.map((p: idk) => ({
-              pack_size: p.pack_size || "",
+      const d = data.data;
+      setName(d.name || "");
+      setPrice(d.price || "");
+      setDescription(d.description || "");
+      setAdditionalDesc(d.additional_description || "");
+
+      // handle packs
+      let parsedPacks: { pack_size: string; price: string }[] = [];
+
+      if (Array.isArray(d.packs)) {
+        parsedPacks = d.packs.map((p: any) => ({
+          pack_size: p.pack_size || p.size || "",
+          price: p.price || "",
+        }));
+      } else if (typeof d.packs === "string" && d.packs.trim() !== "") {
+        try {
+          const arr = JSON.parse(d.packs);
+          if (Array.isArray(arr)) {
+            parsedPacks = arr.map((p: any) => ({
+              pack_size: p.pack_size || p.size || "",
               price: p.price || "",
-            }))
-          : packs
-      );
-      if (data.data.images?.length) {
-        setPreviews(data.data.images); // show existing images
+            }));
+          }
+        } catch {
+          parsedPacks = [];
+        }
       }
+
+      if (!parsedPacks.length) {
+        parsedPacks = [
+          { pack_size: "", price: "" },
+          { pack_size: "", price: "" },
+          { pack_size: "", price: "" },
+        ];
+      }
+
+      setPacks(parsedPacks);
+      setPreviews(d.images?.length ? d.images : []);
     }
   }, [data]);
 
   // Preview uploaded files
   useEffect(() => {
     if (!files.length) return;
-
     const objectUrls = files.map((file) => URL.createObjectURL(file));
     setPreviews(objectUrls);
-
     return () => objectUrls.forEach((url) => URL.revokeObjectURL(url));
   }, [files]);
 
@@ -77,12 +94,10 @@ export default function Page({ id }: { id: string }) {
     e.preventDefault();
     setDragging(true);
   };
-
   const handleDragLeave = (e: React.DragEvent<HTMLLabelElement>) => {
     e.preventDefault();
     setDragging(false);
   };
-
   const handleDrop = (e: React.DragEvent<HTMLLabelElement>) => {
     e.preventDefault();
     setDragging(false);
@@ -105,11 +120,6 @@ export default function Page({ id }: { id: string }) {
       return;
     }
 
-    // if (!files.length) {
-    //   toast.error("At least one product image is required.");
-    //   return;
-    // }
-
     const payload = new FormData();
     payload.append("name", name);
     payload.append("price", price);
@@ -123,9 +133,30 @@ export default function Page({ id }: { id: string }) {
     if (files.length > 0) {
       files.forEach((file, idx) => payload.append(`images[${idx}]`, file));
     }
+
     payload.append("_method", "PATCH");
     mutate(payload);
   };
+
+  // --- RENDERING LOGIC ---
+  if (isPending) {
+    return (
+      <div className="p-6 space-y-4 animate-pulse">
+        <div className="h-[300px] bg-muted rounded-lg" />
+        <div className="h-10 bg-muted rounded-md w-1/2" />
+        <div className="h-10 bg-muted rounded-md w-full" />
+        <div className="h-[200px] bg-muted rounded-md w-full" />
+      </div>
+    );
+  }
+
+  if (!data?.data) {
+    return (
+      <div className="p-6 text-center text-muted-foreground">
+        No product found.
+      </div>
+    );
+  }
 
   return (
     <section className="p-6 space-y-6">

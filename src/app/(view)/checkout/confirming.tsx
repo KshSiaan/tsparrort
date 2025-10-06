@@ -3,7 +3,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useCookies } from "react-cookie";
 import { checkCheckoutStatusApi } from "@/lib/api/base";
-import { Loader2Icon, CheckCircle, Clock } from "lucide-react";
+import { Loader2Icon, CheckCircle, Clock, RefreshCcw } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useCart } from "@/hooks/use-cart";
@@ -22,12 +22,11 @@ export default function Confirming({
   const { clearCart } = useCart();
   const [{ token }] = useCookies(["token"]);
   const [popupClosed, setPopupClosed] = useState(false);
-  const clearedRef = useRef(false); // ensures cart is cleared only once
+  const clearedRef = useRef(false);
 
   // 1️⃣ Open Clover popup
   useEffect(() => {
     if (!data?.href) return;
-
     const popup = window.open(data.href, "_blank", "width=500,height=700");
 
     const interval = setInterval(() => {
@@ -45,6 +44,8 @@ export default function Confirming({
     data: status,
     isPending,
     isError,
+    refetch,
+    isFetching,
   } = useQuery({
     queryKey: ["checkoutStatus", data?.checkoutSessionId],
     queryFn: (): idk =>
@@ -64,7 +65,7 @@ export default function Confirming({
   // 4️⃣ Loading / verifying payment
   if (!popupClosed || isPending || status?.status === false) {
     return (
-      <Card className="w-full max-w-md mx-auto p-8 flex flex-col items-center text-center space-y-4 shadow-lg border border-muted rounded-2xl animate-pulse">
+      <Card className="w-full max-w-md mx-auto p-8 flex flex-col items-center text-center space-y-5 shadow-lg border border-muted rounded-2xl">
         <div className="relative">
           <Loader2Icon className="h-12 w-12 text-primary animate-spin mx-auto" />
           <Clock className="h-6 w-6 text-yellow-500 absolute -bottom-2 -right-2 animate-pulse" />
@@ -74,9 +75,29 @@ export default function Confirming({
           Please wait a moment while we verify your transaction.
           <br />
           <span className="text-sm text-gray-500">
-            This may take up to a few seconds.
+            This may take a few seconds.
           </span>
         </p>
+
+        {/* 🌀 Manual refresh button */}
+        <Button
+          onClick={() => refetch()}
+          variant="outline"
+          disabled={isFetching}
+          className="flex items-center gap-2"
+        >
+          {isFetching ? (
+            <>
+              <Loader2Icon className="h-4 w-4 animate-spin" />
+              Checking...
+            </>
+          ) : (
+            <>
+              <RefreshCcw className="h-4 w-4" />
+              Check Again
+            </>
+          )}
+        </Button>
       </Card>
     );
   }
@@ -110,6 +131,5 @@ export default function Confirming({
     );
   }
 
-  // fallback
   return null;
 }
