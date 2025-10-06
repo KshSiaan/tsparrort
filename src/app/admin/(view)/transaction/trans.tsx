@@ -46,7 +46,7 @@ export default function Users() {
         <TableBody>
           {data.orders.map((x: idk) => (
             <TableRow key={x.id}>
-              <TableCell>{x.id}</TableCell>
+              <TableCell>#{x.transaction_id}</TableCell>
               <TableCell>{x.metadata.full_name}</TableCell>
               <TableCell>{x.metadata.address}</TableCell>
               <TableCell>${x.amount}</TableCell>
