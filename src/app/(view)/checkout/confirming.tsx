@@ -39,7 +39,7 @@ export default function Confirming({
     return () => clearInterval(interval);
   }, [data?.href]);
 
-  // Query payment status (manual trigger)
+  // Poll backend for payment status (every 3s)
   const {
     data: status,
     isFetching,
@@ -49,7 +49,9 @@ export default function Confirming({
     queryKey: ["checkoutStatus", data?.checkoutSessionId],
     queryFn: (): idk =>
       checkCheckoutStatusApi({ token, id: data?.checkoutSessionId! }),
-    enabled: false, // manual check only
+    enabled: !!data?.checkoutSessionId && popupClosed,
+    refetchInterval: 3000,
+    refetchOnWindowFocus: false,
   });
 
   // Clear cart once on confirmed payment
@@ -60,7 +62,7 @@ export default function Confirming({
     }
   }, [status?.status, clearCart]);
 
-  // Success UI
+  // ✅ Success UI
   if (status?.status === true) {
     return (
       <Card className="w-full max-w-lg p-8 shadow-xl border-t-4 border-primary rounded-2xl text-center">
@@ -80,12 +82,13 @@ export default function Confirming({
     );
   }
 
-  // Default UI (after popup closed)
+  // 🧾 Default UI
   return (
     <Card className="w-full max-w-md mx-auto p-8 text-center shadow-lg border border-muted rounded-2xl space-y-5">
       <h2 className="text-2xl font-semibold">Confirm Payment from Clover</h2>
       <p className="text-gray-600">
-        Once you’ve completed payment, click below to verify.
+        Complete your payment in the popup window, then wait or click below to
+        check.
       </p>
 
       <Button
