@@ -5,8 +5,8 @@ import { cookies } from "next/headers";
 import { notFound, redirect } from "next/navigation";
 
 export const metadata: Metadata = {
-  title: "Doogoo",
-  description: "DOGOO Login",
+  title: "TSP Admin",
+  description: "TSP Admin Login",
 };
 
 export default async function RootLayout({
