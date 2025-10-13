@@ -79,7 +79,7 @@ export default function Orders() {
           {data.orders.map((x: idk) => (
             <TableRow key={x.id}>
               <TableCell>#{x.order_id}</TableCell>
-              <TableCell>{x.user.full_name}</TableCell>
+              <TableCell>{x.metadata.full_name}</TableCell>
               <TableCell>${x.price}</TableCell>
               <TableCell>
                 {x.status === "Completed" ? (
