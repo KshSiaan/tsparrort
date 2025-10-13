@@ -33,7 +33,7 @@ const itemsSlot = [
 ];
 
 export default function ProductSection() {
-  const [selectedCat, setSelectedCat] = useState<string | undefined>("");
+  const [selectedCat, setSelectedCat] = useState<string | undefined>("All");
   const [isOpen, setIsOpen] = useState(false);
   const { cart, addToCart, removeFromCart } = useCart();
 
