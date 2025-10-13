@@ -424,7 +424,11 @@ export default function Page() {
             </CardContent>
           </Card>
 
-          <Button type="submit" disabled={form.formState.isSubmitting}>
+          <Button
+            className=" px-4  "
+            type="submit"
+            disabled={form.formState.isSubmitting}
+          >
             {form.formState.isSubmitting ? "Saving..." : "Add item"}
           </Button>
         </form>
