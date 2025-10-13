@@ -121,7 +121,7 @@ export default function Page() {
 
           <div className="flex justify-end items-center px-2">
             <Button className="w-fit" variant="link" asChild>
-              <Link href="/reset">Forget your password?</Link>
+              <Link href="/reset">Forgot your password?</Link>
             </Button>
           </div>
 

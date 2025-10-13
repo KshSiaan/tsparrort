@@ -140,9 +140,7 @@ export function CartSidebar({ ghost }: { ghost?: boolean }) {
                     className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
                     asChild
                   >
-                    <Link href={token ? "/checkout" : "/login"}>
-                      Proceed to Checkout
-                    </Link>
+                    <Link href={"/checkout"}>Proceed to Checkout</Link>
                   </Button>
                   <Button
                     variant="outline"

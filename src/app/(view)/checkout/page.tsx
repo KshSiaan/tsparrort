@@ -26,6 +26,7 @@ import { checkoutApi } from "@/lib/api/base";
 import Confirming from "./confirming";
 
 const checkoutSchema = z.object({
+  email: z.string().email("Invalid email address"),
   full_name: z.string().min(3, "Full name must be at least 3 characters"),
   phone_number: z.string().regex(/^\+?\d{10,15}$/, "Invalid phone number"),
   address: z.string().min(5, "Address must be at least 5 characters"),
@@ -66,6 +67,7 @@ export default function Page() {
       state: "",
       zip_code: "",
       country: "",
+      email: "",
     },
   });
 
@@ -81,6 +83,7 @@ export default function Page() {
         state: "",
         zip_code: "",
         country: "",
+        email: "",
       });
     }
   }, [data, form]);
@@ -156,7 +159,7 @@ export default function Page() {
             ))}
             <div className="flex justify-between font-bold text-lg border-t pt-2">
               <span>Total</span>
-              <span>${total}</span>
+              <span>${total.toFixed(2)}</span>
             </div>
           </CardContent>
         </Card>
@@ -178,6 +181,19 @@ export default function Page() {
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Full Name</FormLabel>
+                      <FormControl>
+                        <Input {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Email</FormLabel>
                       <FormControl>
                         <Input {...field} />
                       </FormControl>

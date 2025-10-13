@@ -30,17 +30,17 @@ export default function Navbar() {
           <div className="bg-background rounded-full p-2">
             <Image
               src={"/image/logo.webp"}
-              height={240}
-              width={240}
+              height={200}
+              width={200}
               alt="The Screaming Parrots Cafe logo"
-              className="aspect-square! size-10"
+              className="aspect-square! size-6  md:size-10"
             />
           </div>
         </Link>
       </div>
-      <h1 className="md:hidden text-lg text-background md:text-6xl font-bold tracking-tight drop-shadow-sm text-center">
+      {/* <h1 className="md:hidden text-lg text-background md:text-6xl font-bold tracking-tight drop-shadow-sm text-center">
         The Screaming Parrots
-      </h1>
+      </h1> */}
       <div className="hidden md:flex items-center gap-4">
         {[
           { label: "About", target: "/#about" },
@@ -99,7 +99,7 @@ export default function Navbar() {
               height={240}
               width={240}
               alt="The Screaming Parrots Cafe logo"
-              className="aspect-square! size-24 mx-auto"
+              className="aspect-square! size-16 mx-auto"
             />
           </SheetHeader>
           <div className="flex flex-col gap-6 px-6">
