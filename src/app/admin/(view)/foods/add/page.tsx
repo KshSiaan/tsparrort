@@ -117,11 +117,11 @@ export default function Page() {
     }
 
     // optional: enforce file size (example: max 5MB)
-    const oversized = files.find((f) => f.size > 5 * 1024 * 1024);
-    if (oversized) {
-      toast.error(`${oversized.name} is larger than 5MB`);
-      return;
-    }
+    // const oversized = files.find((f) => f.size > 20 * 1024 * 1024);
+    // if (oversized) {
+    //   toast.error(`${oversized.name} is larger than 5MB`);
+    //   return;
+    // }
 
     // console.log("form values:", values);
     // console.log("image files:", files);
@@ -205,7 +205,8 @@ export default function Page() {
                 <UploadIcon className="w-10 h-10" />
                 <h4 className="text-xl font-medium">Select Product Images</h4>
                 <p className="text-sm text-center">
-                  You can upload multiple images (max 5MB each)
+                  You can upload multiple images
+                  {/* (max 20MB each) */}
                 </p>
               </>
             )}

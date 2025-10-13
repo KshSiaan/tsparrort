@@ -195,11 +195,11 @@ export default function ProductSection() {
       </div>
 
       {/* Products Grid */}
-      <div className="mt-12 mx-auto max-w-6xl grid grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="mt-12 mx-auto max-w-6xl grid grid-cols-2 lg:grid-cols-3 lg:gap-6 gap-x-2 px-2 md:px-0  ">
         {food?.data?.data.map((x: idk) => (
           <Card
             key={x.id}
-            className="relative shadow-md hover:shadow-xl transition-shadow rounded-2xl overflow-hidden pt-0 flex flex-col justify-between"
+            className="relative shadow-md hover:shadow-xl transition-shadow rounded-2xl overflow-hidden pt-0 flex flex-col justify-between "
           >
             <div className="w-full aspect-[4/3] flex items-center justify-center bg-white">
               <Link href={`/${x.id}`}>
