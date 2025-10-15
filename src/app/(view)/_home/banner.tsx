@@ -6,7 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import React from "react";
 
 export default function Banner() {
-  const { data, isPending, isError, error } = useQuery({
+  const { data, isPending, isError } = useQuery({
     queryKey: ["banner"],
     queryFn: (): idk => {
       return getBanner();
@@ -17,16 +17,12 @@ export default function Banner() {
   }
   if (isError) {
     return (
-      <pre className="bg-gradient-to-br from-zinc-900 via-zinc-800 to-zinc-900 text-amber-400 rounded-xl p-6 shadow-lg overflow-x-auto text-sm leading-relaxed border border-zinc-700">
-        <code className="whitespace-pre-wrap">
-          {JSON.stringify(error, null, 2)}
-        </code>
-      </pre>
+      <div className="w-full h-[50dvh] bg-secondary bg-cover bg-center"></div>
     );
   }
   return (
     <div
-      className="w-full h-[50dvh] bg-secondary bg-cover bg-center bg"
+      className="w-full h-[50dvh] bg-secondary bg-cover bg-center"
       style={{ backgroundImage: `url('${data?.data?.banner}')` }}
     ></div>
   );

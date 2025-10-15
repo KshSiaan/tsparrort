@@ -33,13 +33,13 @@ export default function Navbar() {
               height={240}
               width={240}
               alt="The Screaming Parrots Cafe logo"
-              className="aspect-square! size-10"
+              className="aspect-square! size-6"
             />
           </div>
         </Link>
       </div>
       <h1 className="md:hidden text-lg text-background md:text-6xl font-bold tracking-tight drop-shadow-sm text-center">
-        The Screaming Parrots
+        {/* The Screaming Parrots */}
       </h1>
       <div className="hidden md:flex items-center gap-4">
         {[

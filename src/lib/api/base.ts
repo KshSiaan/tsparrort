@@ -17,10 +17,8 @@ export const getFeedbacks = async ({ token }: { token: string }) => {
 };
 
 export const checkoutApi = async ({
-  token,
   body,
 }: {
-  token: string;
   body: {
     full_name: string;
     address: string;
@@ -28,10 +26,29 @@ export const checkoutApi = async ({
     zip_code: string;
     country: string;
     // orders: { product_id?: string | number; unitQty?: string | number; pack_id?: number|string; }[];
-    orders:idk
+    orders: idk;
   };
 }) => {
-  return howl("/create-checkout", { method: "POST", token, body });
+  return howl("/create-checkout", { method: "POST", body });
+};
+
+export const customCheckoutApi = async ({
+  body,
+}: {
+  body: {
+    full_name: string;
+    email: string;
+    phone_number: string;
+    address: string;
+    city: string;
+    state: string;
+    zip_code: string;
+    country: string;
+    description: string;
+    date: idk;
+  };
+}) => {
+  return howl("/send-custom-order", { method: "POST", body });
 };
 
 export const checkCheckoutStatusApi = async ({
@@ -51,8 +68,6 @@ export const getMyOrdersApi = async ({ token }: { token: string }) => {
   return howl("/user/get-my-orders", { method: "GET", token });
 };
 
-export const viewProductbyId = async ({ id}: {id:string }) => {
-  return howl(`/view-product/${id}`, { method: "GET"});
+export const viewProductbyId = async ({ id }: { id: string }) => {
+  return howl(`/view-product/${id}`, { method: "GET" });
 };
-
-

@@ -9,7 +9,13 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import Image from "next/image";
-import { ChevronDown, Loader2Icon, MinusIcon, PlusIcon } from "lucide-react";
+import {
+  Calendar,
+  ChevronDown,
+  Loader2Icon,
+  MinusIcon,
+  PlusIcon,
+} from "lucide-react";
 import { cn, idk } from "@/lib/utils";
 import { items } from "@/lib/products";
 import { motion, AnimatePresence } from "framer-motion";
@@ -77,7 +83,14 @@ export default function ProductSection() {
           </a>
         </Button>
       </div>
-
+      <div className="mt-12 flex justify-center">
+        <Button asChild>
+          <Link href={"/custom"}>
+            <Calendar />
+            Make an order schedule
+          </Link>
+        </Button>
+      </div>
       {/* Title */}
       <h2
         id="featured-title"

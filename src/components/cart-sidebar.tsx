@@ -32,7 +32,7 @@ export function CartSidebar({ ghost }: { ghost?: boolean }) {
         <Button
           variant={ghost ? "ghost" : "outline"}
           size="icon"
-          className="relative bg-transparent"
+          className="relative bg-primary rounded-full text-background size-12"
         >
           <ShoppingCart className="h-4 w-4" />
           {getTotalItems() > 0 && (
@@ -140,9 +140,7 @@ export function CartSidebar({ ghost }: { ghost?: boolean }) {
                     className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
                     asChild
                   >
-                    <Link href={token ? "/checkout" : "/login"}>
-                      Proceed to Checkout
-                    </Link>
+                    <Link href={"/checkout"}>Proceed to Checkout</Link>
                   </Button>
                   <Button
                     variant="outline"
