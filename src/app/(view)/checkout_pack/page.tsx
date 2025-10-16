@@ -97,11 +97,11 @@ export default function Page() {
       });
     }
   }, [data, form]);
-
+  //okokokok
   // Checkout mutation
   const { mutate } = useMutation({
     mutationKey: ["checkout"],
-    mutationFn: (body: PayloadType) => checkoutApi({ token, body }),
+    mutationFn: (body: PayloadType) => checkoutApi({ body }),
     onError: (err) => {
       toast.error(err.message ?? "Failed to complete this request");
     },
