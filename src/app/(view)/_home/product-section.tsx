@@ -86,7 +86,7 @@ export default function ProductSection() {
         <Button asChild>
           <Link href={"/custom"}>
             <Calendar />
-            Make an order schedule
+            Schedule Custom Order
           </Link>
         </Button>
       </div>
