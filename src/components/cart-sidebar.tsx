@@ -32,7 +32,7 @@ export function CartSidebar({ ghost }: { ghost?: boolean }) {
         <Button
           variant={ghost ? "ghost" : "outline"}
           size="icon"
-          className="relative bg-transparent"
+          className="relative bg-primary rounded-full size-12 text-background"
         >
           <ShoppingCart className="h-4 w-4" />
           {getTotalItems() > 0 && (

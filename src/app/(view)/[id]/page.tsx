@@ -142,8 +142,8 @@ export default function ProductPage() {
         </div>
 
         {/* Product Hero Section */}
-        <div className="grid lg:grid-cols-1 gap-4 mb-12">
-          <Image
+        <div className="grid lg:grid-cols-1 gap-4 mb-12 overflow-visible!">
+          {/* <Image
             suppressHydrationWarning
             height={500}
             width={500}
@@ -152,22 +152,36 @@ export default function ProductPage() {
             alt={product.name}
             priority
             draggable={false}
-          />
-          <div className="space-y-4 relative">
-            <div className="overflow-hidden bg-card">
-              <Carousel>
-                <CarouselContent>
-                  {product.images.slice(1).map((img: string, idx: number) => (
-                    <CarouselItem key={idx} className="basis-1/3">
+          /> */}
+          <div className="space-y-4 relative overflow-visible!">
+            <div className="overflow-visible! bg-card">
+              <Carousel
+                opts={{
+                  loop: true,
+                  slidesToScroll: 1,
+                }}
+                className="w-full overflow-visible!"
+              >
+                <CarouselContent className="!overflow-visible">
+                  {product.images.map((img: string, idx: number) => (
+                    <CarouselItem
+                      key={idx}
+                      className="basis-[66.666%] relative !overflow-visible"
+                    >
                       <Image
-                        suppressHydrationWarning
                         height={500}
                         width={500}
-                        className="object-cover aspect-square w-full rounded"
+                        className="object-cover aspect-video w-full rounded"
                         src={img}
                         alt={product.name}
                         priority
                       />
+                      {idx === 0 && (
+                        <div className="absolute size-[110px] bg-gradient-to-br from-primary/90 via-primary to-primary/80 rounded-full border-[3px] border-white shadow-lg -top-[45px] -right-[45px] z-30 flex flex-col justify-center items-center text-white font-semibold text-sm tracking-wide rotate-[15deg] hover:rotate-[0deg] transition-all duration-500 ease-out [animation-duration:4s]">
+                          <p className="text-xs uppercase">Most</p>
+                          <p className="text-base font-extrabold">Popular</p>
+                        </div>
+                      )}
                     </CarouselItem>
                   ))}
                 </CarouselContent>

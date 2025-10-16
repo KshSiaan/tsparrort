@@ -11,7 +11,6 @@ import {
 import Image from "next/image";
 import { ChevronDown, Loader2Icon, MinusIcon, PlusIcon } from "lucide-react";
 import { cn, idk } from "@/lib/utils";
-import { items } from "@/lib/products";
 import { motion, AnimatePresence } from "framer-motion";
 import { useCart } from "@/context/cart-context";
 import Link from "next/link";
@@ -195,7 +194,7 @@ export default function ProductSection() {
       </div>
 
       {/* Products Grid */}
-      <div className="mt-12 mx-auto max-w-6xl grid grid-cols-2 lg:grid-cols-3 lg:gap-6 gap-x-2 px-2 md:px-0  ">
+      <div className="mt-12 mx-auto max-w-6xl grid grid-cols-2 lg:grid-cols-3 lg:gap-6 gap-2 px-2 md:px-0  ">
         {food?.data?.data.map((x: idk) => (
           <Card
             key={x.id}
