@@ -45,29 +45,6 @@ export default function Home() {
           </h1>
           <Banner />
         </div>
-        {/* About Section */}
-        {/* <section
-          id="about"
-          className="py-16 flex justify-center items-center gap-12 px-6 md:px-12"
-          aria-labelledby="about-title"
-        >
-          <div className="w-full md:w-3/4">
-            <h1
-              id="about-title"
-              className="font-bold text-2xl md:text-4xl text-center"
-            >
-              About The Screaming Parrots Cafe
-            </h1>
-            <p className="mt-4 text-base md:text-lg font-semibold leading-relaxed text-center">
-              Welcome to <strong>The Screaming Parrots Cafe</strong>: Desserts +
-              Tea + Bites, where vibrant flavors and a cozy atmosphere create a
-              delightful escape. Enjoy handcrafted desserts, an exquisite
-              selection of teas, and savory bites made with the freshest
-              ingredients. Whether catching up with friends or relaxing solo,
-              our cafe is the perfect spot to treat yourself.
-            </p>
-          </div>
-        </section> */}
         <ProductSection />
         {/* FAQs Section */}
         <section id="faqs" className="my-24" aria-labelledby="faq-title">

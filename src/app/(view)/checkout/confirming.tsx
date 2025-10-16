@@ -48,6 +48,7 @@ export default function Confirming({
   } = useQuery({
     queryKey: ["checkoutStatus", data?.checkoutSessionId],
     queryFn: (): idk =>
+      // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
       checkCheckoutStatusApi({ token, id: data?.checkoutSessionId! }),
     enabled: !!data?.checkoutSessionId && popupClosed,
     refetchInterval: 3000,

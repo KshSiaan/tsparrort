@@ -34,6 +34,7 @@ import { useCookies } from "react-cookie";
 import { idk } from "@/lib/utils";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { Checkbox } from "@/components/ui/checkbox";
 
 // schema — images excluded
 const productSchema = z.object({
@@ -48,6 +49,7 @@ const productSchema = z.object({
   pack3_size: z.string().optional(),
   pack3_price: z.string().optional(),
   additionalDescription: z.string().optional(),
+  is_offer: z.boolean(),
 });
 
 type ProductFormValues = z.infer<typeof productSchema>;
@@ -76,6 +78,7 @@ export default function Page() {
     onSuccess: (res: idk) => {
       qcl.invalidateQueries({ queryKey: ["foods"] });
       toast.success(res.message ?? "Successfully created the product!");
+      navig.push("/admin/foods");
     },
   });
 
@@ -106,6 +109,7 @@ export default function Page() {
       pack3_size: "",
       pack3_price: "",
       additionalDescription: "",
+      is_offer: false,
     },
   });
 
@@ -132,6 +136,7 @@ export default function Page() {
     payload.append("category", values.category);
     payload.append("price", values.pricePerServing);
     payload.append("description", values.description);
+    payload.append("is_offer", values.is_offer ? "1" : "0");
 
     if (values.additionalDescription) {
       payload.append("additional_description", values.additionalDescription);
@@ -423,6 +428,22 @@ export default function Page() {
               />
             </CardContent>
           </Card>
+          <FormField
+            control={form.control}
+            name="is_offer"
+            render={({ field }) => (
+              <FormItem className="flex items-center space-x-2">
+                <FormControl>
+                  <Checkbox
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                  />
+                </FormControl>
+                <FormLabel>Most Popular?</FormLabel>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
           <Button
             className=" px-4  "
