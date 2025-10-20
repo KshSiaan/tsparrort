@@ -43,9 +43,9 @@ export default function Navbar() {
       </h1> */}
       <div className="hidden md:flex items-center gap-4">
         {[
-          { label: "About", target: "/#about" },
-          { label: "Featured", target: "/#featured" },
-          { label: "Reviews", target: "/#faqs" },
+          { label: "About Us", target: "/#about" },
+          // { label: "Featured", target: "/#featured" },
+          // { label: "Reviews", target: "/#faqs" },
         ].map((x) => (
           <Button
             className="text-background hover:text-green-950 shadow-none! transition-colors no-underline! cursor-pointer"

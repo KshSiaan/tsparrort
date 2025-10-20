@@ -23,6 +23,9 @@ export default function Footer() {
           <Link href="/login" className="hover:underline">
             Login
           </Link>
+          <Link href="/#about" className="hover:underline">
+            About us
+          </Link>
           <Link href="/terms" className="hover:underline">
             Terms & Conditions
           </Link>
