@@ -105,9 +105,9 @@ export default function Navbar() {
           <div className="flex flex-col gap-6 px-6">
             {" "}
             {[
-              { label: "About", target: "/#about" },
-              { label: "Featured", target: "/#featured" },
-              { label: "Reviews", target: "/#faqs" },
+              { label: "About us", target: "/#about" },
+              // { label: "Featured", target: "/#featured" },
+              // { label: "Reviews", target: "/#faqs" },
             ].map((x) => (
               <Button
                 className="bg-background text-foreground hover:text-green-950 shadow-none! transition-colors no-underline! cursor-pointer"
