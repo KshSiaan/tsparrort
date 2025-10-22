@@ -1,5 +1,5 @@
 import { apiConfig } from "../config"
-import { howl } from "../utils"
+import { howl, idk } from "../utils"
 
 
 //>>>>>>>>>>>>> Dashboard <<<<<<<<<<<<<<<
@@ -133,4 +133,9 @@ export const getViewOrderApi = async ({id,token}:{id:string|number,token: string
 }
 export const changeOrderStatusApi = async ({id,status,token}:{id:string|number,status:string,token: string}) => {
   return howl(`/admin/order-status-change?order_id=${id}&status=${status} `, { method: "PATCH", token })
+}
+
+// extra
+export const updateAboutApi = async ({token,body}:{body:idk,token: string}) => {
+  return howl(`/admin/pages/about-us `, { method: "POST",body, token });
 }

@@ -3,6 +3,7 @@ import {
   Banknote,
   GalleryVerticalEndIcon,
   ImageIcon,
+  InfoIcon,
   LayoutDashboardIcon,
   PopcornIcon,
   SlidersHorizontalIcon,
@@ -44,6 +45,11 @@ export const route = {
       title: "Transactions",
       url: `${ADMIN_PREFIX}/transaction`,
       icon:Banknote,
+    },
+    {
+      title: "About Us",
+      url: `${ADMIN_PREFIX}/content/about`,
+      icon:InfoIcon,
     },
     {
       title: "Settings",

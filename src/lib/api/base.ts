@@ -71,3 +71,8 @@ export const getMyOrdersApi = async ({ token }: { token: string }) => {
 export const viewProductbyId = async ({ id }: { id: string }) => {
   return howl(`/view-product/${id}`, { method: "GET" });
 };
+export const getAboutApi = async () => {
+  return howl(`/pages/about-us`, { method: "GET" });
+};
+
+
